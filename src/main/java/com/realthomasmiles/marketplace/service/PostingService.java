@@ -3,11 +3,11 @@ package com.realthomasmiles.marketplace.service;
 import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 
-import java.util.Set;
+import java.util.List;
 
 public interface PostingService {
 
-    Set<PostingDto> getAllPostings();
+    List<PostingDto> getAllPostings();
 
     PostingDto postPosting(PostPostingRequest postPostingRequest);
 

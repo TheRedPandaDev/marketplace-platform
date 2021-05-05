@@ -10,8 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -25,10 +24,10 @@ public class PostingServiceImpl implements PostingService {
     private ModelMapper modelMapper;
 
     @Override
-    public Set<PostingDto> getAllPostings() {
+    public List<PostingDto> getAllPostings() {
         return StreamSupport.stream(postingRepository.findAll().spliterator(), false)
                 .map(posting -> modelMapper.map(posting, PostingDto.class))
-                .collect(Collectors.toCollection(TreeSet::new));
+                .collect(Collectors.toList());
     }
 
     @Override
