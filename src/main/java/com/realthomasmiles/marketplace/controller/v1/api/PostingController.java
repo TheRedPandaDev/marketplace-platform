@@ -26,6 +26,13 @@ public class PostingController {
                 .setPayload(postingService.getAllPostings());
     }
 
+    @GetMapping("/search")
+    public Response<Object> searchPostingsByName(@RequestParam String q) {
+        return Response
+                .ok()
+                .setPayload(postingService.getPostingsByNameContains(q));
+    }
+
     @PostMapping("/new")
     public Response<Object> postPosting(@RequestBody @Valid PostPostingRequest postPostingRequest) {
         Optional<PostingDto> postingDto = Optional.ofNullable(postingService.postPosting(postPostingRequest));

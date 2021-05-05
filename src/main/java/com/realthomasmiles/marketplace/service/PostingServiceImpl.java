@@ -31,6 +31,13 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
+    public List<PostingDto> getPostingsByNameContains(String text) {
+        return postingRepository.findByNameContains(text).stream()
+                .map(posting -> modelMapper.map(posting, PostingDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PostingDto postPosting(PostPostingRequest postPostingRequest) {
         Posting posting = new Posting()
                 .setArticle("article")

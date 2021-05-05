@@ -9,6 +9,8 @@ public interface PostingService {
 
     List<PostingDto> getAllPostings();
 
+    List<PostingDto> getPostingsByNameContains(String text);
+
     PostingDto postPosting(PostPostingRequest postPostingRequest);
 
 }
