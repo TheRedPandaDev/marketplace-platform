@@ -15,6 +15,7 @@ import java.util.Date;
 public class Posting {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String article;
     @Column(name = "is_active")
