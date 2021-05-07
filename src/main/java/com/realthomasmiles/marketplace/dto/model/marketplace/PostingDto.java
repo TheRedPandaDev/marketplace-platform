@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostingDto {
 
+    private Long id;
     private String article;
     private Boolean isActive;
     private Long categoryId;

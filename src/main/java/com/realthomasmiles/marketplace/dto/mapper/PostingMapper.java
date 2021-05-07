@@ -7,6 +7,7 @@ import com.realthomasmiles.marketplace.util.DateUtils;
 public class PostingMapper {
     public static PostingDto toPostingDto(Posting posting) {
         return new PostingDto()
+                .setId(posting.getId())
                 .setPosted(DateUtils.formattedDate(posting.getPosted()))
                 .setArticle(posting.getArticle())
                 .setAuthorId(posting.getAuthorId())
