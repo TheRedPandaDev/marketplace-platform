@@ -14,7 +14,7 @@ public class PostingMapper {
                 .setDescription(posting.getDescription())
                 .setCategory(posting.getCategory().getName())
                 .setIsActive(posting.getIsActive())
-                .setLocationId(posting.getLocationId())
+                .setLocation(posting.getLocation().getName())
                 .setPrice(posting.getPrice())
                 .setName(posting.getName());
     }

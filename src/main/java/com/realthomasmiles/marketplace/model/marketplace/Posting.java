@@ -25,8 +25,9 @@ public class Posting {
     private Category category;
     @Column(name = "author_id")
     private Long authorId;
-    @Column(name = "location_id")
-    private Long locationId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
     @Temporal(TemporalType.TIMESTAMP)
     private Date posted;
     private String name;

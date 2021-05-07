@@ -18,7 +18,7 @@ public class PostingDto {
     private Boolean isActive;
     private String category;
     private Long authorId;
-    private Long locationId;
+    private String location;
     private String posted;
     private String name;
     private String description;
