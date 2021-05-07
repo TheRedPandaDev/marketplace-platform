@@ -12,7 +12,7 @@ public class PostingMapper {
                 .setArticle(posting.getArticle())
                 .setAuthorId(posting.getAuthorId())
                 .setDescription(posting.getDescription())
-                .setCategoryId(posting.getCategoryId())
+                .setCategory(posting.getCategory().getName())
                 .setIsActive(posting.getIsActive())
                 .setLocationId(posting.getLocationId())
                 .setPrice(posting.getPrice())

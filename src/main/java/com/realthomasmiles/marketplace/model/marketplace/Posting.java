@@ -20,8 +20,9 @@ public class Posting {
     private String article;
     @Column(name = "is_active")
     private Boolean isActive;
-    @Column(name = "category_id")
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
     @Column(name = "author_id")
     private Long authorId;
     @Column(name = "location_id")
