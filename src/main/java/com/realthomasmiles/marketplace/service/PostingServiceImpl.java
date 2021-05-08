@@ -84,6 +84,18 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
+    public List<PostingDto> getPostingsByCategory(CategoryDto categoryDto) {
+        Optional<Category> category = categoryRepository.findById(categoryDto.getId());
+        if (category.isPresent()) {
+            return postingRepository.findByLocationId(category.get().getId()).stream()
+                    .map(PostingMapper::toPostingDto)
+                    .collect(Collectors.toList());
+        }
+
+        throw exception(EntityType.CATEGORY, ExceptionType.ENTITY_NOT_FOUND, categoryDto.getId().toString());
+    }
+
+    @Override
     public PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto,
                                   UserDto userDto) {
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));

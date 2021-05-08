@@ -16,6 +16,8 @@ public interface PostingService {
 
     List<PostingDto> getPostingsByLocation(LocationDto locationDto);
 
+    List<PostingDto> getPostingsByCategory(CategoryDto categoryDto);
+
     List<PostingDto> getPostingsByUser(UserDto userDto);
 
     PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto,

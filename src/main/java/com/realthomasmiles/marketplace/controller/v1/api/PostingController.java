@@ -6,6 +6,7 @@ import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.dto.response.Response;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
+import com.realthomasmiles.marketplace.service.CategoryService;
 import com.realthomasmiles.marketplace.service.LocationService;
 import com.realthomasmiles.marketplace.service.PostingService;
 import com.realthomasmiles.marketplace.service.UserService;
@@ -28,6 +29,9 @@ public class PostingController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private UserService userService;
@@ -53,6 +57,20 @@ public class PostingController {
             return Response
                     .ok()
                     .setPayload(postingService.getPostingsByLocation(locationDto.get()));
+        }
+
+        return Response
+                .badRequest()
+                .setErrors("Unable to process request");
+    }
+
+    @GetMapping("/categoryPostings")
+    public Response<Object> getPostingsByCategory(@RequestParam(name = "category") String categoryName) {
+        Optional<CategoryDto> categoryDto = Optional.ofNullable(categoryService.getCategoryByName(categoryName));
+        if (categoryDto.isPresent()) {
+            return Response
+                    .ok()
+                    .setPayload(postingService.getPostingsByCategory(categoryDto.get()));
         }
 
         return Response
