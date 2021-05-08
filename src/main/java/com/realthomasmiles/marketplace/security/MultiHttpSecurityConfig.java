@@ -29,7 +29,7 @@ public class MultiHttpSecurityConfig {
 
         protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
             authenticationManagerBuilder
-                    .userDetailsService(userDetailsService())
+                    .userDetailsService(userDetailsService)
                     .passwordEncoder(bCryptPasswordEncoder);
         }
 
