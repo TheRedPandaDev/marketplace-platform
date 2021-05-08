@@ -3,10 +3,14 @@ package com.realthomasmiles.marketplace.controller.v1.api;
 import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
+import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.dto.response.Response;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 import com.realthomasmiles.marketplace.service.PostingService;
+import com.realthomasmiles.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +25,9 @@ public class PostingController {
     @Autowired
     private PostingService postingService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/all")
     public Response<Object> getAllPostings() {
         return Response
@@ -29,23 +36,58 @@ public class PostingController {
     }
 
     @GetMapping("/search")
-    public Response<Object> searchPostingsByName(@RequestParam String q) {
+    public Response<Object> searchPostingsByName(@RequestParam(name = "q") String text) {
         return Response
                 .ok()
-                .setPayload(postingService.getPostingsByNameContains(q));
+                .setPayload(postingService.getPostingsByNameContains(text));
+    }
+
+    @GetMapping("/myPostings")
+    public Response<Object> getCurrentUsersPostings() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = (String) authentication.getPrincipal();
+        Optional<UserDto> userDto = Optional.ofNullable(userService.findUserByEmail(email));
+        if (userDto.isPresent()) {
+            return Response
+                    .ok()
+                    .setPayload(postingService.getPostingsByUser(userDto.get()));
+        }
+
+        return Response
+                .badRequest()
+                .setErrors("Unable to process request");
+    }
+
+    @GetMapping("/userPostings")
+    public Response<Object> getUsersPostings(@RequestParam(name = "user") String email) {
+        Optional<UserDto> userDto = Optional.ofNullable(userService.findUserByEmail(email));
+        if (userDto.isPresent()) {
+            return Response
+                    .ok()
+                    .setPayload(postingService.getPostingsByUser(userDto.get()));
+        }
+
+        return Response
+                .badRequest()
+                .setErrors("Unable to process request");
     }
 
     @PostMapping("/new")
     public Response<Object> postPosting(@RequestBody @Valid PostPostingRequest postPostingRequest) {
-        Optional<CategoryDto> categoryDto = Optional.ofNullable(postingService.getCategoryById(postPostingRequest.getCategoryId()));
-        if (categoryDto.isPresent()) {
-            Optional<LocationDto> locationDto = Optional.ofNullable(postingService.getLocationById(postPostingRequest.getLocationId()));
-            if (locationDto.isPresent()) {
-                Optional<PostingDto> postingDto = Optional.ofNullable(postingService.postPosting(postPostingRequest, categoryDto.get(), locationDto.get()));
-                if (postingDto.isPresent()) {
-                    return Response
-                            .ok()
-                            .setPayload(postingDto.get());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = (String) authentication.getPrincipal();
+        Optional<UserDto> userDto = Optional.ofNullable(userService.findUserByEmail(email));
+        if (userDto.isPresent()) {
+            Optional<CategoryDto> categoryDto = Optional.ofNullable(postingService.getCategoryById(postPostingRequest.getCategoryId()));
+            if (categoryDto.isPresent()) {
+                Optional<LocationDto> locationDto = Optional.ofNullable(postingService.getLocationById(postPostingRequest.getLocationId()));
+                if (locationDto.isPresent()) {
+                    Optional<PostingDto> postingDto = Optional.ofNullable(postingService.postPosting(postPostingRequest, categoryDto.get(), locationDto.get(), userDto.get()));
+                    if (postingDto.isPresent()) {
+                        return Response
+                                .ok()
+                                .setPayload(postingDto.get());
+                    }
                 }
             }
         }
