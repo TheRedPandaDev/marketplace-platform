@@ -4,6 +4,7 @@ import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
+import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 
 import java.util.List;
 
@@ -11,9 +12,12 @@ public interface PostingService {
 
     List<PostingDto> getAllPostings();
 
+    List<PostingDto> getPostingsByUser(UserDto userDto);
+
     List<PostingDto> getPostingsByNameContains(String text);
 
-    PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto);
+    PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto,
+                           UserDto userDto);
 
     CategoryDto getCategoryById(Long categoryId);
 

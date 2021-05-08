@@ -10,7 +10,7 @@ public class PostingMapper {
                 .setId(posting.getId())
                 .setPosted(DateUtils.formattedDate(posting.getPosted()))
                 .setArticle(posting.getArticle())
-                .setAuthorId(posting.getAuthorId())
+                .setAuthor(posting.getAuthor().getFullName())
                 .setDescription(posting.getDescription())
                 .setCategory(posting.getCategory().getName())
                 .setIsActive(posting.getIsActive())

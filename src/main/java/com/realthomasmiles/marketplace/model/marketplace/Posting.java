@@ -1,5 +1,6 @@
 package com.realthomasmiles.marketplace.model.marketplace;
 
+import com.realthomasmiles.marketplace.model.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -23,8 +24,9 @@ public class Posting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
-    @Column(name = "author_id")
-    private Long authorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private User author;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
     private Location location;

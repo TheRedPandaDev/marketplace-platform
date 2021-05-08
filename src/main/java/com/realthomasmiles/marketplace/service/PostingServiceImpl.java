@@ -5,15 +5,18 @@ import com.realthomasmiles.marketplace.dto.mapper.PostingMapper;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
+import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.exception.EntityType;
 import com.realthomasmiles.marketplace.exception.ExceptionType;
 import com.realthomasmiles.marketplace.exception.MarketPlaceException;
 import com.realthomasmiles.marketplace.model.marketplace.Category;
 import com.realthomasmiles.marketplace.model.marketplace.Location;
 import com.realthomasmiles.marketplace.model.marketplace.Posting;
+import com.realthomasmiles.marketplace.model.user.User;
 import com.realthomasmiles.marketplace.repository.marketplace.CategoryRepository;
 import com.realthomasmiles.marketplace.repository.marketplace.LocationRepository;
 import com.realthomasmiles.marketplace.repository.marketplace.PostingRepository;
+import com.realthomasmiles.marketplace.repository.user.UserRepository;
 import com.realthomasmiles.marketplace.util.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class PostingServiceImpl implements PostingService {
 
     @Autowired
     private PostingRepository postingRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -47,6 +53,18 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
+    public List<PostingDto> getPostingsByUser(UserDto userDto) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+        if (user.isPresent()) {
+            return postingRepository.findByAuthorId(user.get().getId()).stream()
+                    .map(PostingMapper::toPostingDto)
+                    .collect(Collectors.toList());
+        }
+
+        throw exception(EntityType.USER, ExceptionType.ENTITY_NOT_FOUND, userDto.getEmail());
+    }
+
+    @Override
     public List<PostingDto> getPostingsByNameContains(String text) {
         return postingRepository.findByNameContains(text).stream()
                 .map(PostingMapper::toPostingDto)
@@ -54,31 +72,37 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
-    public PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto) {
-        Optional<Category> category = categoryRepository.findById(categoryDto.getId());
-        if (category.isPresent()) {
-            Optional<Location> location = locationRepository.findById(locationDto.getId());
-            if (location.isPresent()) {
-                Posting posting = new Posting()
-                        .setArticle("article")
-                        .setIsActive(true)
-                        .setCategory(category.get())
-                        .setAuthorId(0L)
-                        .setLocation(location.get())
-                        .setPosted(DateUtils.today())
-                        .setName(postPostingRequest.getName())
-                        .setDescription(postPostingRequest.getDescription())
-                        .setPrice(postPostingRequest.getPrice());
+    public PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto,
+                                  UserDto userDto) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+        if (user.isPresent()) {
+            Optional<Category> category = categoryRepository.findById(categoryDto.getId());
+            if (category.isPresent()) {
+                Optional<Location> location = locationRepository.findById(locationDto.getId());
+                if (location.isPresent()) {
+                    Posting posting = new Posting()
+                            .setArticle("article")
+                            .setIsActive(true)
+                            .setCategory(category.get())
+                            .setAuthor(user.get())
+                            .setLocation(location.get())
+                            .setPosted(DateUtils.today())
+                            .setName(postPostingRequest.getName())
+                            .setDescription(postPostingRequest.getDescription())
+                            .setPrice(postPostingRequest.getPrice());
 
-                posting = postingRepository.save(posting);
+                    posting = postingRepository.save(posting);
 
-                return PostingMapper.toPostingDto(posting);
+                    return PostingMapper.toPostingDto(posting);
+                }
+
+                throw exception(EntityType.LOCATION, ExceptionType.ENTITY_NOT_FOUND, locationDto.getId().toString());
             }
 
-            throw exception(EntityType.LOCATION, ExceptionType.ENTITY_NOT_FOUND, locationDto.getId().toString());
+            throw exception(EntityType.CATEGORY, ExceptionType.ENTITY_NOT_FOUND, categoryDto.getId().toString());
         }
 
-        throw exception(EntityType.CATEGORY, ExceptionType.ENTITY_NOT_FOUND, categoryDto.getId().toString());
+        throw exception(EntityType.USER, ExceptionType.ENTITY_NOT_FOUND, userDto.getEmail());
     }
 
     @Override
