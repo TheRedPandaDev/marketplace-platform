@@ -10,7 +10,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication
@@ -57,7 +56,7 @@ public class MarketplaceApplication {
 						.setPassword("$2a$10$7PtcjEnWb/ZkgyXyxY1/Iei2dGgGQUbqIIll/dt.qJ8l8nQBWMbYO") // "123456"
 						.setFirstName("Dmitry")
 						.setLastName("Milya")
-						.setPhoneNumber("123456")
+						.setPhoneNumber("1234567")
 						.setRoles(Collections.singletonList(userRole));
 				userRepository.save(user);
 			}
