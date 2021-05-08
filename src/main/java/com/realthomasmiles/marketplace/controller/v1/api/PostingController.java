@@ -6,6 +6,7 @@ import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.dto.response.Response;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
+import com.realthomasmiles.marketplace.service.LocationService;
 import com.realthomasmiles.marketplace.service.PostingService;
 import com.realthomasmiles.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class PostingController {
     private PostingService postingService;
 
     @Autowired
+    private LocationService locationService;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping("/all")
@@ -40,6 +44,20 @@ public class PostingController {
         return Response
                 .ok()
                 .setPayload(postingService.getPostingsByNameContains(text));
+    }
+
+    @GetMapping("/locationPostings")
+    public Response<Object> getPostingsByLocation(@RequestParam(name = "location") String locationName) {
+        Optional<LocationDto> locationDto = Optional.ofNullable(locationService.getLocationByName(locationName));
+        if (locationDto.isPresent()) {
+            return Response
+                    .ok()
+                    .setPayload(postingService.getPostingsByLocation(locationDto.get()));
+        }
+
+        return Response
+                .badRequest()
+                .setErrors("Unable to process request");
     }
 
     @GetMapping("/myPostings")

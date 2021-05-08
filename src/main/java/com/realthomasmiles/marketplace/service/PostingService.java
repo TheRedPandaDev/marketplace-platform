@@ -12,9 +12,11 @@ public interface PostingService {
 
     List<PostingDto> getAllPostings();
 
-    List<PostingDto> getPostingsByUser(UserDto userDto);
-
     List<PostingDto> getPostingsByNameContains(String text);
+
+    List<PostingDto> getPostingsByLocation(LocationDto locationDto);
+
+    List<PostingDto> getPostingsByUser(UserDto userDto);
 
     PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto,
                            UserDto userDto);

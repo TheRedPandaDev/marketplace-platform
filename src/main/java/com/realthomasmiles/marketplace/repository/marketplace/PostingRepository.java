@@ -11,4 +11,6 @@ public interface PostingRepository extends CrudRepository<Posting, Long> {
 
     List<Posting> findByAuthorId(Long userId);
 
+    List<Posting> findByLocationId(Long locationId);
+
 }

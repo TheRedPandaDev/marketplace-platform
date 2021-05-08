@@ -8,4 +8,6 @@ public interface LocationService {
 
     List<LocationDto> getAllLocations();
 
+    LocationDto getLocationByName(String name);
+
 }
