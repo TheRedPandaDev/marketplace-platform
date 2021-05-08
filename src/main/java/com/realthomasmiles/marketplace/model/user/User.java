@@ -30,7 +30,7 @@ public class User {
     private String lastName;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
     joinColumns = {@JoinColumn(name = "user_id")},
     inverseJoinColumns = {@JoinColumn(name = "role_id")})
