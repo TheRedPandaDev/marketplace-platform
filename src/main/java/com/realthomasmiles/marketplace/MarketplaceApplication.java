@@ -1,16 +1,24 @@
 package com.realthomasmiles.marketplace;
 
+import com.realthomasmiles.marketplace.model.marketplace.Category;
+import com.realthomasmiles.marketplace.model.marketplace.Location;
+import com.realthomasmiles.marketplace.model.marketplace.Posting;
 import com.realthomasmiles.marketplace.model.user.Role;
 import com.realthomasmiles.marketplace.model.user.User;
 import com.realthomasmiles.marketplace.model.user.UserRole;
+import com.realthomasmiles.marketplace.repository.marketplace.CategoryRepository;
+import com.realthomasmiles.marketplace.repository.marketplace.LocationRepository;
+import com.realthomasmiles.marketplace.repository.marketplace.PostingRepository;
 import com.realthomasmiles.marketplace.repository.user.RoleRepository;
 import com.realthomasmiles.marketplace.repository.user.UserRepository;
+import com.realthomasmiles.marketplace.util.DateUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootApplication
 public class MarketplaceApplication {
@@ -21,7 +29,9 @@ public class MarketplaceApplication {
 
 
 	@Bean
-	CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository) {
+	CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository,
+						   CategoryRepository categoryRepository, LocationRepository locationRepository,
+						   PostingRepository postingRepository) {
 		return args -> {
 			Role adminRole = roleRepository.findByRole(UserRole.ADMIN);
 			if (adminRole == null) {
@@ -59,6 +69,50 @@ public class MarketplaceApplication {
 						.setPhoneNumber("1234567")
 						.setRoles(Collections.singletonList(userRole));
 				userRepository.save(user);
+			}
+
+			Category computersCategory = categoryRepository.findByNameIgnoreCase("computers");
+			if (computersCategory == null) {
+				computersCategory = new Category()
+						.setName("Computers");
+				categoryRepository.save(computersCategory);
+			}
+
+			Location akademicheskayaLocation = locationRepository.findByNameIgnoreCase("akademicheskaya");
+			if (akademicheskayaLocation == null) {
+				akademicheskayaLocation = new Location()
+						.setName("Akademicheskaya");
+				locationRepository.save(akademicheskayaLocation);
+			}
+
+			List<Posting> adminLaptopPostings = postingRepository.findByNameContainsIgnoreCase("admin init laptop");
+			if (adminLaptopPostings.size() == 0) {
+				Posting laptopPosting = new Posting()
+						.setArticle("article")
+						.setAuthor(admin)
+						.setName("Admin INIT Laptop")
+						.setCategory(computersCategory)
+						.setLocation(akademicheskayaLocation)
+						.setDescription("Admin laptop for sale")
+						.setIsActive(true)
+						.setPosted(DateUtils.today())
+						.setPrice(30000L);
+				postingRepository.save(laptopPosting);
+			}
+
+			List<Posting> userLaptopPostings = postingRepository.findByNameContainsIgnoreCase("user init laptop");
+			if (userLaptopPostings.size() == 0) {
+				Posting laptopPosting = new Posting()
+						.setArticle("article")
+						.setAuthor(user)
+						.setName("User INIT Laptop")
+						.setCategory(computersCategory)
+						.setLocation(akademicheskayaLocation)
+						.setDescription("User laptop for sale")
+						.setIsActive(true)
+						.setPosted(DateUtils.today())
+						.setPrice(25000L);
+				postingRepository.save(laptopPosting);
 			}
 		};
 	}
