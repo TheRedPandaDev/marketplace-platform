@@ -94,12 +94,12 @@ public class OfferServiceImpl implements OfferService {
                         return OfferMapper.toOfferDto(offer);
                     }
 
-                    throw exception(EntityType.POSTING, ExceptionType.ENTITY_EXCEPTION,
-                            "Unable to make an offer to your own posting.");
+                    throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND,
+                            posting.get().getId().toString());
                 }
 
-                throw exception(EntityType.POSTING, ExceptionType.ENTITY_EXCEPTION,
-                        "Posting with code " + posting.get().getId() + " is inactive");
+                throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND,
+                        posting.get().getId().toString());
             }
 
             throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND,

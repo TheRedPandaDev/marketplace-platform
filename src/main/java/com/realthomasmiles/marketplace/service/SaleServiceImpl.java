@@ -115,12 +115,12 @@ public class SaleServiceImpl implements SaleService {
                                 makeSaleRequest.getOfferId().toString());
                     }
 
-                    throw exception(EntityType.POSTING, ExceptionType.ENTITY_EXCEPTION,
-                            "Posting with code " + posting.get().getId() + " is inactive");
+                    throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND,
+                            posting.get().getId().toString());
                 }
 
-                throw exception(EntityType.POSTING, ExceptionType.ENTITY_EXCEPTION,
-                        "Posting with code " + posting.get().getId() + " does not belong to you");
+                throw exception(EntityType.POSTING, ExceptionType.UNAUTHORIZED_ACCESS_TO_ENTITY,
+                        posting.get().getId().toString());
             }
 
             throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND,

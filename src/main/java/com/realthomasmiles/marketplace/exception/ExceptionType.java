@@ -3,7 +3,8 @@ package com.realthomasmiles.marketplace.exception;
 public enum ExceptionType {
     ENTITY_NOT_FOUND("not.found"),
     DUPLICATE_ENTITY("duplicate"),
-    ENTITY_EXCEPTION("exception");
+    ENTITY_EXCEPTION("exception"),
+    UNAUTHORIZED_ACCESS_TO_ENTITY("unauthorized.access");
 
     String value;
 

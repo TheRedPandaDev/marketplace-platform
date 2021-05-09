@@ -27,4 +27,11 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(MarketPlaceException.UnauthorizedAccessToEntityException.class)
+    public final ResponseEntity<Object> handleUnauthorizedAccessToEntityExceptions(Exception ex, WebRequest request) {
+        Response<Object> response = Response.unauthorizedAccessToEntity();
+        response.addErrorMsgToResponse(ex.getMessage(), ex);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
 }

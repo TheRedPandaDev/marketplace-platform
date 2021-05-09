@@ -74,6 +74,12 @@ public class Response<T> {
         return response;
     }
 
+    public static <T> Response<T> unauthorizedAccessToEntity() {
+        Response<T> response = new Response<>();
+        response.setStatus(Status.UNAUTHORIZED_ACCESS_TO_ENTITY);
+        return response;
+    }
+
     public void addErrorMsgToResponse(String errorMsg, Exception ex) {
         ResponseError error = new ResponseError()
                 .setDetails(errorMsg)
@@ -83,7 +89,8 @@ public class Response<T> {
     }
 
     public enum Status {
-        OK, BAD_REQUEST, UNAUTHORIZED, VALIDATION_EXCEPTION, EXCEPTION, WRONG_CREDENTIALS, ACCESS_DENIED, NOT_FOUND, DUPLICATE_ENTITY
+        OK, BAD_REQUEST, UNAUTHORIZED, VALIDATION_EXCEPTION, EXCEPTION, WRONG_CREDENTIALS, ACCESS_DENIED,
+        NOT_FOUND, DUPLICATE_ENTITY, UNAUTHORIZED_ACCESS_TO_ENTITY
     }
 
     @Getter

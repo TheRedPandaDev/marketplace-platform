@@ -40,6 +40,8 @@ public class MarketPlaceException {
             return new EntityNotFoundException(format(messageTemplate, args));
         } else if (ExceptionType.DUPLICATE_ENTITY.equals(exceptionType)) {
             return new DuplicateEntityException(format(messageTemplate, args));
+        } else if (ExceptionType.UNAUTHORIZED_ACCESS_TO_ENTITY.equals(exceptionType)) {
+            return new UnauthorizedAccessToEntityException(format(messageTemplate, args));
         }
         return new RuntimeException(format(messageTemplate, args));
     }
@@ -48,7 +50,7 @@ public class MarketPlaceException {
         return entityType.name().concat(".").concat(exceptionType.getValue()).toLowerCase();
     }
 
-    private static String format(String template, String ... args) {
+    private static String format(String template, String... args) {
         Optional<String> templateContent = Optional.ofNullable(propertiesConfig.getConfigValue(template));
         return templateContent.map(s -> MessageFormat.format(s, (Object[]) args)).orElseGet(() -> String.format(template, (Object[]) args));
     }
@@ -61,6 +63,12 @@ public class MarketPlaceException {
 
     public static class DuplicateEntityException extends RuntimeException {
         public DuplicateEntityException(String message) {
+            super(message);
+        }
+    }
+
+    public static class UnauthorizedAccessToEntityException extends RuntimeException {
+        public UnauthorizedAccessToEntityException(String message) {
             super(message);
         }
     }
