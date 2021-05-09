@@ -14,6 +14,7 @@ import com.realthomasmiles.marketplace.model.user.User;
 import com.realthomasmiles.marketplace.repository.marketplace.OfferRepository;
 import com.realthomasmiles.marketplace.repository.marketplace.PostingRepository;
 import com.realthomasmiles.marketplace.repository.user.UserRepository;
+import com.realthomasmiles.marketplace.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -80,19 +81,25 @@ public class OfferServiceImpl implements OfferService {
         if (user.isPresent()) {
             Optional<Posting> posting = postingRepository.findById(makeOfferRequest.getPostingId());
             if (posting.isPresent()) {
-                if (!posting.get().getAuthor().getId().equals(user.get().getId())) {
-                    Offer offer = new Offer()
-                            .setAuthor(user.get())
-                            .setPosting(posting.get())
-                            .setAmount(makeOfferRequest.getAmount());
+                if (posting.get().getIsActive()) {
+                    if (!posting.get().getAuthor().getId().equals(user.get().getId())) {
+                        Offer offer = new Offer()
+                                .setAuthor(user.get())
+                                .setPosting(posting.get())
+                                .setAmount(makeOfferRequest.getAmount())
+                                .setOffered(DateUtils.today());
 
-                    offer = offerRepository.save(offer);
+                        offer = offerRepository.save(offer);
 
-                    return OfferMapper.toOfferDto(offer);
+                        return OfferMapper.toOfferDto(offer);
+                    }
+
+                    throw exception(EntityType.POSTING, ExceptionType.ENTITY_EXCEPTION,
+                            "Unable to make an offer to your own posting.");
                 }
 
                 throw exception(EntityType.POSTING, ExceptionType.ENTITY_EXCEPTION,
-                        "Unable to make an offer to your own posting.");
+                        "Posting with code " + posting.get().getId() + " is inactive");
             }
 
             throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND,

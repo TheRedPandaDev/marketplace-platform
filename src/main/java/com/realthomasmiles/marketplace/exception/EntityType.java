@@ -4,5 +4,6 @@ public enum EntityType {
     USER,
     POSTING,
     CATEGORY,
-    LOCATION
+    LOCATION,
+    OFFER,
 }
