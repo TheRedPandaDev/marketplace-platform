@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryByName(String name) {
-        Optional<Category> category = Optional.ofNullable(categoryRepository.findByName(name));
+        Optional<Category> category = Optional.ofNullable(categoryRepository.findByNameIgnoreCase(name));
         if (category.isPresent()) {
             return modelMapper.map(category.get(), CategoryDto.class);
         }

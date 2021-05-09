@@ -33,7 +33,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public LocationDto getLocationByName(String name) {
-        Optional<Location> location = Optional.ofNullable(locationRepository.findByName(name));
+        Optional<Location> location = Optional.ofNullable(locationRepository.findByNameIgnoreCase(name));
         if (location.isPresent()) {
             return modelMapper.map(location.get(), LocationDto.class);
         }

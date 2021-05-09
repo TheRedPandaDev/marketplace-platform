@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface LocationRepository extends CrudRepository<Location, Long> {
 
-    Location findByName(String name);
+    Location findByNameIgnoreCase(String name);
 
 }

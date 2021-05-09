@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostingRepository extends CrudRepository<Posting, Long> {
 
-    List<Posting> findByNameContains(String text);
+    List<Posting> findByNameContainsIgnoreCase(String text);
 
     List<Posting> findByAuthorId(Long userId);
 

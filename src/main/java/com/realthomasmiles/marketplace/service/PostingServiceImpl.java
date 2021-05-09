@@ -66,7 +66,7 @@ public class PostingServiceImpl implements PostingService {
 
     @Override
     public List<PostingDto> getPostingsByNameContains(String text) {
-        return postingRepository.findByNameContains(text).stream()
+        return postingRepository.findByNameContainsIgnoreCase(text).stream()
                 .map(PostingMapper::toPostingDto)
                 .collect(Collectors.toList());
     }
