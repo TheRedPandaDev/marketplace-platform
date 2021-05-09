@@ -12,6 +12,8 @@ public interface PostingService {
 
     List<PostingDto> getAllPostings();
 
+    PostingDto getPostingById(Long id);
+
     List<PostingDto> getPostingsByNameContains(String text);
 
     List<PostingDto> getPostingsByLocation(LocationDto locationDto);
