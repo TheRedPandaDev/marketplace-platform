@@ -88,8 +88,9 @@ public class MarketplaceApplication {
 			}
 
 			List<Posting> adminLaptopPostings = postingRepository.findByNameContainsIgnoreCase("admin init laptop");
+			Posting adminLaptopPosting;
 			if (adminLaptopPostings.size() == 0) {
-				Posting laptopPosting = new Posting()
+				adminLaptopPosting = new Posting()
 						.setArticle("article")
 						.setAuthor(admin)
 						.setName("Admin INIT Laptop")
@@ -99,13 +100,15 @@ public class MarketplaceApplication {
 						.setIsActive(true)
 						.setPosted(DateUtils.today())
 						.setPrice(30000L);
-				postingRepository.save(laptopPosting);
+				postingRepository.save(adminLaptopPosting);
+			} else {
+				adminLaptopPosting = adminLaptopPostings.get(0);
 			}
 
 			List<Posting> userLaptopPostings = postingRepository.findByNameContainsIgnoreCase("user init laptop");
-			Posting laptopPosting;
+			Posting userLaptopPosting;
 			if (userLaptopPostings.size() == 0) {
-				laptopPosting = new Posting()
+				userLaptopPosting = new Posting()
 						.setArticle("article")
 						.setAuthor(user)
 						.setName("User INIT Laptop")
@@ -115,19 +118,29 @@ public class MarketplaceApplication {
 						.setIsActive(true)
 						.setPosted(DateUtils.today())
 						.setPrice(25000L);
-				laptopPosting = postingRepository.save(laptopPosting);
+				userLaptopPosting = postingRepository.save(userLaptopPosting);
 			} else {
-				laptopPosting = userLaptopPostings.get(0);
+				userLaptopPosting = userLaptopPostings.get(0);
 			}
 
-			List<Offer> userLaptopOffers = offerRepository.findByPostingIdAndAuthorId(laptopPosting.getId(), admin.getId());
+			List<Offer> userLaptopOffers = offerRepository.findByPostingIdAndAuthorId(userLaptopPosting.getId(), admin.getId());
 			if (userLaptopOffers.size() == 0) {
-				Offer laptopOffer = new Offer()
+				Offer userLaptopOffer = new Offer()
 						.setAuthor(admin)
-						.setPosting(laptopPosting)
+						.setPosting(userLaptopPosting)
 						.setOffered(DateUtils.today())
 						.setAmount(20000L);
-				offerRepository.save(laptopOffer);
+				offerRepository.save(userLaptopOffer);
+			}
+
+			List<Offer> adminLaptopOffers = offerRepository.findByPostingIdAndAuthorId(adminLaptopPosting.getId(), user.getId());
+			if (adminLaptopOffers.size() == 0) {
+				Offer adminLaptopOffer = new Offer()
+						.setAuthor(user)
+						.setPosting(adminLaptopPosting)
+						.setOffered(DateUtils.today())
+						.setAmount(25000L);
+				offerRepository.save(adminLaptopOffer);
 			}
 		};
 	}
