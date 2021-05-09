@@ -2,12 +2,14 @@ package com.realthomasmiles.marketplace;
 
 import com.realthomasmiles.marketplace.model.marketplace.Category;
 import com.realthomasmiles.marketplace.model.marketplace.Location;
+import com.realthomasmiles.marketplace.model.marketplace.Offer;
 import com.realthomasmiles.marketplace.model.marketplace.Posting;
 import com.realthomasmiles.marketplace.model.user.Role;
 import com.realthomasmiles.marketplace.model.user.User;
 import com.realthomasmiles.marketplace.model.user.UserRole;
 import com.realthomasmiles.marketplace.repository.marketplace.CategoryRepository;
 import com.realthomasmiles.marketplace.repository.marketplace.LocationRepository;
+import com.realthomasmiles.marketplace.repository.marketplace.OfferRepository;
 import com.realthomasmiles.marketplace.repository.marketplace.PostingRepository;
 import com.realthomasmiles.marketplace.repository.user.RoleRepository;
 import com.realthomasmiles.marketplace.repository.user.UserRepository;
@@ -31,7 +33,7 @@ public class MarketplaceApplication {
 	@Bean
 	CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository,
 						   CategoryRepository categoryRepository, LocationRepository locationRepository,
-						   PostingRepository postingRepository) {
+						   PostingRepository postingRepository, OfferRepository offerRepository) {
 		return args -> {
 			Role adminRole = roleRepository.findByRole(UserRole.ADMIN);
 			if (adminRole == null) {
@@ -101,8 +103,9 @@ public class MarketplaceApplication {
 			}
 
 			List<Posting> userLaptopPostings = postingRepository.findByNameContainsIgnoreCase("user init laptop");
+			Posting laptopPosting;
 			if (userLaptopPostings.size() == 0) {
-				Posting laptopPosting = new Posting()
+				laptopPosting = new Posting()
 						.setArticle("article")
 						.setAuthor(user)
 						.setName("User INIT Laptop")
@@ -112,7 +115,19 @@ public class MarketplaceApplication {
 						.setIsActive(true)
 						.setPosted(DateUtils.today())
 						.setPrice(25000L);
-				postingRepository.save(laptopPosting);
+				laptopPosting = postingRepository.save(laptopPosting);
+			} else {
+				laptopPosting = userLaptopPostings.get(0);
+			}
+
+			List<Offer> userLaptopOffers = offerRepository.findByPostingIdAndAuthorId(laptopPosting.getId(), admin.getId());
+			if (userLaptopOffers.size() == 0) {
+				Offer laptopOffer = new Offer()
+						.setAuthor(admin)
+						.setPosting(laptopPosting)
+						.setOffered(DateUtils.today())
+						.setAmount(20000L);
+				offerRepository.save(laptopOffer);
 			}
 		};
 	}
