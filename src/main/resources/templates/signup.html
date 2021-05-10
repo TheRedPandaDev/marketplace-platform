@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/auth/css/style.css">
+</head>
+<body>
+
+<div class="main">
+    <!-- Sign up form -->
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Sign up</h2>
+                    <!--/*@thymesVar id="signUpFormData" type="com.realthomasmiles.marketplace.controller.v1.command.SignUpFormCommand"*/-->
+                    <form action="#" method="POST" class="register-form" id="register-form" th:action="@{/signup}" th:object="${signUpFormData}">
+                        <div class="form-group">
+                            <label for="firstName"></label>
+                            <input type="text" th:field="*{firstName}" name="firstName" id="firstName" placeholder="First Name"/>
+                            <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName"></label>
+                            <input type="text" th:field="*{lastName}" name="lastName" id="lastName" placeholder="Last Name"/>
+                            <small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email"></label>
+                            <input type="email" th:field="*{email}" name="email" id="email" placeholder="Your Email"/>
+                            <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password"></label>
+                            <input type="password" th:field="*{password}" name="password" id="password" placeholder="Password"/>
+                            <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobileNumber"></label>
+                            <input type="text" th:field="*{phoneNumber}" name="mobileNumber" id="mobileNumber" placeholder="Contact Number"/>
+                            <small class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" name="signup" id="signup" value="Register"/>
+                        </div>
+                    </form>
+                    <a href="/login">I already have an account</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
