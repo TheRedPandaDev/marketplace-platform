@@ -7,13 +7,13 @@
 </head>
 
 <body>
-<div id="main-wrapper">
+<div class="main-wrapper">
     <div th:replace="fragments/navigation :: navigation"></div>
     <div th:replace="fragments/sidebar :: sidebar"></div>
-    <div class="page-wrapper" id="mainContent">
+    <div class="page-wrapper">
         <div layout:fragment="content"></div>
-        <div th:replace="fragments/footer :: footer"></div>
     </div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 
