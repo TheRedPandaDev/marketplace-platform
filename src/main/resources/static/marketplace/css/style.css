@@ -1,0 +1,99 @@
+body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 100vh;
+}
+
+a {
+     text-decoration: none;
+     color: inherit;
+ }
+
+.main-wrapper {
+    display: grid;
+    grid-template-columns: 15% auto;
+    grid-template-rows: 15vh auto 10vh;
+    grid-template-areas:
+            "header header"
+            "sidebar page-wrapper"
+            "footer footer";
+}
+
+header {
+    grid-area: header;
+    display: flex;
+    background-color: dodgerblue;
+    color: white;
+    align-items: center;
+}
+
+.topbar-brand {
+    flex: 5;
+    margin-left: 15px;
+}
+
+.topbar-brand h1 {
+    margin: 0;
+}
+
+.topbar-profile {
+    flex-grow: 0;
+    text-align: center;
+    margin-right: 30px;
+}
+
+.topbar-profile-username {
+    padding: 0 10px;
+    border-radius: 15px;
+    background: white;
+    color: black;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px dodgerblue solid;
+    font-size: large;
+}
+
+.sidebar > ul {
+    margin: 15px;
+    flex: 5;
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar > ul > li {
+    margin-bottom: 10px;
+}
+
+.sidebar > ul > li > ul {
+    padding-left: 20px;
+}
+
+.page-wrapper {
+    grid-area: page-wrapper;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.posting-item {
+    border: 1px dodgerblue solid;
+    margin-bottom: 25px;
+    padding-left: 15px;
+}
+
+.posting-item > .posting-name {
+    color: dodgerblue;
+}
+
+footer {
+    min-height: 5vh;
+    grid-area: footer;
+    padding: 10px 25px;
+    background-color: dodgerblue;
+    color: white;
+}
