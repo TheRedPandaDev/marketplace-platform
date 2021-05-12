@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+<div class="container-fluid" layout:fragment="content">
+  <div class="postings-container">
+    <!--/*@thymesVar id="posting" type="com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto"*/-->
+    <tr th:if="${posting == null}">
+      <td colspan="2">No posting found</td>
+    </tr>
+    <div class="posting-item" th:id="${posting.getId()}">
+      <div class="posting-category">
+        <p>Category: </p>
+        <span th:text="${posting.getCategory()}"></span>
+      </div>
+      <div class="posting-name">
+        <p>Name: </p>
+        <span th:text="${posting.getName()}"></span>
+      </div>
+      <div class="posting-description">
+        <p>Description: </p>
+        <span th:text="${posting.getDescription()}"></span>
+      </div>
+      <div class="posting-location">
+        <p>Location: </p>
+        <span th:text="${posting.getLocation()}"></span>
+      </div>
+      <div class="posting-posted">
+        <p>Posted: </p>
+        <span th:text="${posting.getPosted()}"></span>
+      </div>
+      <div class="posting-author">
+        <p>Author: </p>
+        <span th:text="${posting.getAuthor()}"></span>
+      </div>
+      <div class="posting-price">
+        <p>Price: </p>
+        <span th:text="${posting.getPrice()}"></span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
