@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DateUtils {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 
     public static Date today() {
         return new Date();
