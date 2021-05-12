@@ -111,6 +111,7 @@ public class MultiHttpSecurityConfig {
                     .logoutSuccessUrl("/")
                     .and()
                     .exceptionHandling();
+            http.headers().frameOptions().sameOrigin();
         }
 
         @Override
