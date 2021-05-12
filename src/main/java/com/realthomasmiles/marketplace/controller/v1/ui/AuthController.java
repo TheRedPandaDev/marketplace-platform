@@ -35,7 +35,7 @@ public class AuthController {
 
     @GetMapping("/home")
     public String home() {
-        return "redirect:myProfile";
+        return "redirect:postings/all";
     }
 
     @GetMapping("/logout")
