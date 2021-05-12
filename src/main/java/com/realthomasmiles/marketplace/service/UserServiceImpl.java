@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public UserDto findUserByEmail(String email) {
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
         if (user.isPresent()) {
-            return modelMapper.map(user.get(), UserDto.class);
+            return UserMapper.toUserDto(user.get());
         }
 
         throw exception(EntityType.USER, ExceptionType.ENTITY_NOT_FOUND, email);
