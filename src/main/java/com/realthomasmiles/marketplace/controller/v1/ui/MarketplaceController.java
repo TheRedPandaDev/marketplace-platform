@@ -13,7 +13,6 @@ import com.realthomasmiles.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-@Validated
 public class MarketplaceController {
 
     @Autowired
