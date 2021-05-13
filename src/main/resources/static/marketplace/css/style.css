@@ -172,6 +172,20 @@ header {
     padding-left: 15px;
 }
 
+.posting-offers-container {
+    padding-right: 50px;
+}
+
+.posting-offers-container .offer-item {
+    border: 1px dodgerblue solid;
+    margin-bottom: 25px;
+    padding-left: 15px;
+}
+
+.offer-item > .offer-amount {
+    color: dodgerblue;
+}
+
 .posting-item > .posting-name {
     color: dodgerblue;
 }
@@ -179,10 +193,11 @@ header {
 .posting-container .posting-item {
     display: grid;
     grid-template-columns: auto 30%;
-    grid-template-rows: 15vh auto;
+    grid-template-rows: 15vh 25vh auto;
     grid-template-areas:
             "general meta"
-            "description meta";
+            "description meta"
+            "offers meta";
 }
 
 .posting-item > .posting-item-general {
@@ -231,6 +246,10 @@ header {
 
 .posting-item > .posting-item-meta > .posting-author:hover .posting-author-name {
     color: blue;
+}
+
+.posting-item > .posting-offers-container {
+    grid-area: offers;
 }
 
 footer {

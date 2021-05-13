@@ -20,6 +20,10 @@
         <div class="posting-price">
           <h3 th:text="${posting.getPrice()} + '₽'"></h3>
         </div>
+        <!--/*@thymesVar id="maxOfferAmount" type="java.util.OptionalLong"*/-->
+        <div th:if="${maxOfferAmount != null && maxOfferAmount.isPresent()}" class="posting-max-offer">
+          <h3 th:text="'Biggest offer: ' + ${maxOfferAmount.getAsLong()} + '₽'"></h3>
+        </div>
       </div>
       <div class="posting-item-meta">
         <div class="posting-posted">
@@ -45,8 +49,26 @@
         </div>
       </div>
       <div class="posting-item-description">
+        <h3>Description:</h3>
         <div class="posting-description">
           <p th:text="${posting.getDescription()}"></p>
+        </div>
+      </div>
+      <div th:if="${offers != null}" class="posting-offers-container">
+        <h3>Offers:</h3>
+        <p th:if="${offers.size() == 0}">No offers yet...</p>
+        <!--/*@thymesVar id="offers" type="java.util.List<com.realthomasmiles.marketplace.dto.model.marketplace.OfferDto>"*/-->
+        <div class="offer-item" th:each="offer : ${offers}">
+          <!--/*@thymesVar id="offer" type="com.realthomasmiles.marketplace.dto.model.marketplace.OfferDto"*/-->
+          <div class="offer-amount">
+            <h3 th:text="${offer.getAmount()} + '₽'"></h3>
+          </div>
+          <div class="posting-offered">
+            <p th:text="${offer.getOffered()}"></p>
+          </div>
+          <div class="posting-author">
+            <p th:text="${offer.getAuthor()}"></p>
+          </div>
         </div>
       </div>
     </div>

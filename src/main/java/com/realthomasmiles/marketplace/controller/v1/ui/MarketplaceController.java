@@ -6,13 +6,11 @@ import com.realthomasmiles.marketplace.controller.v1.command.ProfileFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
+import com.realthomasmiles.marketplace.dto.model.marketplace.OfferDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.dto.response.Response;
-import com.realthomasmiles.marketplace.service.CategoryService;
-import com.realthomasmiles.marketplace.service.LocationService;
-import com.realthomasmiles.marketplace.service.PostingService;
-import com.realthomasmiles.marketplace.service.UserService;
+import com.realthomasmiles.marketplace.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,6 +25,7 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalLong;
 
 @Controller
 public class MarketplaceController {
@@ -42,6 +41,9 @@ public class MarketplaceController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private OfferService offerService;
 
     @GetMapping("/postings/all")
     public ModelAndView allPostings(Principal principal) {
@@ -138,7 +140,15 @@ public class MarketplaceController {
         try {
             Long postingId = Long.parseLong(id);
             PostingDto posting = postingService.getPostingById(Long.parseLong(id));
+            List<OfferDto> offers = offerService.getOffersByPosting(posting);
             modelAndView.addObject("posting", posting);
+            OptionalLong maxOfferAmount = offers.stream().mapToLong(OfferDto::getAmount).max();
+            if (maxOfferAmount.isPresent()) {
+                modelAndView.addObject("maxOfferAmount", maxOfferAmount);
+            }
+            if (posting.getAuthorId().equals(userDto.getId())) {
+                modelAndView.addObject("offers", offers);
+            }
         } catch (NumberFormatException numberFormatException) {
             modelAndView.addObject("posting", null);
         }
