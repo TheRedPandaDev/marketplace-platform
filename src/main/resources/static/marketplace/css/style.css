@@ -193,11 +193,15 @@ header {
 .posting-container .posting-item {
     display: grid;
     grid-template-columns: auto 30%;
-    grid-template-rows: 15vh 25vh auto;
+    grid-template-rows: auto 25vh auto;
     grid-template-areas:
             "general meta"
             "description meta"
             "offers meta";
+}
+
+.posting-item > .posting-item-general > .offer-form {
+    width: 10vw;
 }
 
 .posting-item > .posting-item-general {

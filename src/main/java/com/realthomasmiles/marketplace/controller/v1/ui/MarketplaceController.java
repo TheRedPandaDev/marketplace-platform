@@ -1,8 +1,10 @@
 package com.realthomasmiles.marketplace.controller.v1.ui;
 
+import com.realthomasmiles.marketplace.controller.v1.command.MakeOfferCommand;
 import com.realthomasmiles.marketplace.controller.v1.command.PasswordFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.command.ProfileFormCommand;
+import com.realthomasmiles.marketplace.controller.v1.request.MakeOfferRequest;
 import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
@@ -148,6 +150,8 @@ public class MarketplaceController {
             }
             if (posting.getAuthorId().equals(userDto.getId())) {
                 modelAndView.addObject("offers", offers);
+            } else {
+                modelAndView.addObject("offerFormData", new MakeOfferCommand());
             }
         } catch (NumberFormatException numberFormatException) {
             modelAndView.addObject("posting", null);
@@ -211,7 +215,7 @@ public class MarketplaceController {
 
     @PostMapping("/postings/new")
     public ModelAndView postNewPosting(Principal principal,
-                                    @Valid @ModelAttribute("postingForm") PostingFormCommand postingFormCommand,
+                                    @Valid @ModelAttribute("postingFormData") PostingFormCommand postingFormCommand,
                                     BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("newPosting");
         UserDto userDto = userService.findUserByEmail(principal.getName());
@@ -255,6 +259,48 @@ public class MarketplaceController {
         }
 
         return null;
+    }
+
+    @PostMapping("/postings/{id}/offer")
+    public ModelAndView makeOffer(Principal principal,
+                                  @PathVariable String id,
+                                  @Valid @ModelAttribute("offerFormData") MakeOfferCommand makeOfferCommand,
+                                  BindingResult bindingResult) {
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        long postingId;
+        try {
+            postingId = Long.parseLong(id);
+        } catch (NumberFormatException numberFormatException) {
+            return new ModelAndView("redirect:/postings/all");
+        }
+        PostingDto posting;
+        try {
+            posting = postingService.getPostingById(postingId);
+        } catch (Exception exception) {
+            return new ModelAndView("redirect:/postings/all");
+        }
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("redirect:/postings/" + posting.getId());
+        } else {
+            try {
+                saveOffer(makeOfferCommand, posting.getId(), userDto);
+            } catch (Exception exception) {
+                bindingResult.rejectValue("amount", "error.signUpFormCommand", exception.getMessage());
+
+                return new ModelAndView("redirect:/postings/" + posting.getId());
+            }
+        }
+
+
+        return new ModelAndView("redirect:/postings/" + posting.getId());
+    }
+
+    private void saveOffer(@Valid MakeOfferCommand makeOfferCommand, Long postingId, UserDto userDto) {
+        MakeOfferRequest makeOfferRequest = new MakeOfferRequest()
+                .setAmount(makeOfferCommand.getAmount())
+                .setPostingId(postingId);
+
+        offerService.makeOffer(makeOfferRequest, userDto);
     }
 
     @PostMapping("/myProfile")

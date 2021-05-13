@@ -24,6 +24,19 @@
         <div th:if="${maxOfferAmount != null && maxOfferAmount.isPresent()}" class="posting-max-offer">
           <h3 th:text="'Biggest offer: ' + ${maxOfferAmount.getAsLong()} + '₽'"></h3>
         </div>
+        <div th:if="${offerFormData != null}" class="offer-form">
+          <!--/*@thymesVar id="offerFormData" type="com.realthomasmiles.marketplace.controller.v1.command.MakeOfferCommand"*/-->
+          <form method="POST" th:action="'/postings/' + ${posting.getId()} + '/offer'" th:object="${offerFormData}">
+            <div class="form-group">
+              <label for="amount">Make offer: </label>
+              <input min="1" max="10000000000" type="number" th:field="${offerFormData.amount}" name="amount" id="amount" th:placeholder="${posting.getPrice()}">
+              <p class="text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="${offerFormData.amount}"></p>
+            </div>
+            <div class="form-group">
+              <input type="submit" name="makeOffer" id="makeOffer" value="Offer"/>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="posting-item-meta">
         <div class="posting-posted">
