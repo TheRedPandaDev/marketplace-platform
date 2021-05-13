@@ -60,6 +60,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return UserMapper.toUserDto(user.get());
+        }
+
+        throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND, id.toString());
+    }
+
+    @Override
     public UserDto findUserByEmail(String email) {
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
         if (user.isPresent()) {

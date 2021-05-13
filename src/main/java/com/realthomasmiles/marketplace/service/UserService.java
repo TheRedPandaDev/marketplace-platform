@@ -6,6 +6,8 @@ public interface UserService {
 
     UserDto signUp(UserDto userDto);
 
+    UserDto getUserById(Long id);
+
     UserDto findUserByEmail(String email);
 
     UserDto updateProfile(UserDto userDto);
