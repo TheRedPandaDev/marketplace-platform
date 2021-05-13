@@ -58,6 +58,12 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return modelAndView;
         } else {
+            if (!signUpFormCommand.getConfirmPassword().equals(signUpFormCommand.getPassword())) {
+                bindingResult.rejectValue("confirmPassword", "error.signUpFormCommand",
+                        "Passwords don't match");
+
+                return modelAndView;
+            }
             try {
                 UserDto newUser = registerUser(signUpFormCommand);
             } catch (Exception exception) {
