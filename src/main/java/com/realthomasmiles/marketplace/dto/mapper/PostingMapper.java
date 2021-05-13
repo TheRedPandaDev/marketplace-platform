@@ -10,10 +10,13 @@ public class PostingMapper {
                 .setId(posting.getId())
                 .setPosted(DateUtils.formattedDate(posting.getPosted()))
                 .setArticle(posting.getArticle())
+                .setAuthorId(posting.getAuthor().getId())
                 .setAuthor(posting.getAuthor().getFullName())
                 .setDescription(posting.getDescription())
+                .setCategoryId(posting.getCategory().getId())
                 .setCategory(posting.getCategory().getName())
                 .setIsActive(posting.getIsActive())
+                .setLocationId(posting.getLocation().getId())
                 .setLocation(posting.getLocation().getName())
                 .setPrice(posting.getPrice())
                 .setName(posting.getName());
