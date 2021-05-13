@@ -80,7 +80,7 @@ header {
     padding: 20px;
 }
 
-.posting-item {
+.postings-container > .posting-item {
     border: 1px dodgerblue solid;
     margin-bottom: 25px;
     padding-left: 15px;
@@ -88,6 +88,52 @@ header {
 
 .posting-item > .posting-name {
     color: dodgerblue;
+}
+
+.posting-container > .posting-item {
+    display: grid;
+    grid-template-columns: auto 30%;
+    grid-template-rows: 15vh auto;
+    grid-template-areas:
+            "general meta"
+            "description meta";
+}
+
+.posting-item > .posting-item-general {
+    grid-area: general;
+    color: dodgerblue;
+}
+
+.posting-item > .posting-item-description {
+    grid-area: description;
+    padding-right: 50px;
+}
+
+.posting-item > .posting-item-description > .posting-description {
+    border: 1px black solid;
+    border-radius: 10px;
+    padding-left: 15px;
+}
+
+.posting-item > .posting-item-meta {
+    grid-area: meta;
+}
+
+.posting-item > .posting-item-meta > .posting-category {
+    color: cornflowerblue;
+}
+
+.posting-item > .posting-item-meta > .posting-location {
+    color: cornflowerblue;
+}
+
+.posting-item > .posting-item-meta > .posting-author {
+    margin-top: 50px;
+}
+
+.posting-item > .posting-item-meta > .posting-author .posting-author-name {
+    margin-top: 50px;
+    color: cornflowerblue;
 }
 
 footer {
