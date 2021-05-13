@@ -24,7 +24,7 @@ public class UserDto {
     private Collection<RoleDto> roles;
 
     public String getFullName() {
-        return firstName != null ? firstName.concat(" ").concat(lastName) : "";
+        return firstName != null ? firstName.concat(" ").concat(lastName) : email;
     }
 
 }
