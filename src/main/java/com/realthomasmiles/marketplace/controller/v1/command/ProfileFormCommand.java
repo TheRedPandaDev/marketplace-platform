@@ -11,15 +11,18 @@ import javax.validation.constraints.Size;
 public class ProfileFormCommand {
 
     @NotBlank
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 40, message =
+    "First name must be between 1 and 40 characters")
     private String firstName;
 
     @NotBlank
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 40, message =
+    "Last name must be between 1 and 40 characters")
     private String lastName;
 
     @NotBlank
-    @Size(min = 5, max = 13)
+    @Size(min = 5, max = 13, message =
+    "Phone number must be between 5 and 13 characters")
     private String phoneNumber;
 
 }

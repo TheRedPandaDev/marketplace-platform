@@ -16,7 +16,8 @@ public class PasswordFormCommand {
     private String email;
 
     @NotBlank
-    @Size(min = 5, max = 36)
+    @Size(min = 5, max = 36, message =
+    "Password must be between 5 and 36 characters")
     private String password;
 
 }
