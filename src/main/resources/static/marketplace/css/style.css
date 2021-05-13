@@ -11,6 +11,10 @@ a {
      color: inherit;
  }
 
+a:hover {
+    color: blue;
+}
+
 .main-wrapper {
     display: grid;
     grid-template-columns: 15% auto;
@@ -32,6 +36,10 @@ header {
 .topbar-brand {
     flex: 5;
     margin-left: 15px;
+}
+
+.topbar-brand > a:hover {
+    color: white;
 }
 
 .topbar-brand h1 {
@@ -80,7 +88,7 @@ header {
     padding: 20px;
 }
 
-.postings-container > .posting-item {
+.postings-container .posting-item {
     border: 1px dodgerblue solid;
     margin-bottom: 25px;
     padding-left: 15px;
@@ -90,7 +98,7 @@ header {
     color: dodgerblue;
 }
 
-.posting-container > .posting-item {
+.posting-container .posting-item {
     display: grid;
     grid-template-columns: auto 30%;
     grid-template-rows: 15vh auto;
@@ -101,6 +109,9 @@ header {
 
 .posting-item > .posting-item-general {
     grid-area: general;
+}
+
+.posting-item > .posting-item-general > .posting-name {
     color: dodgerblue;
 }
 
@@ -131,9 +142,17 @@ header {
     margin-top: 50px;
 }
 
+.posting-item > .posting-item-meta > .posting-author > a:hover {
+    color: inherit;
+}
+
 .posting-item > .posting-item-meta > .posting-author .posting-author-name {
     margin-top: 50px;
     color: cornflowerblue;
+}
+
+.posting-item > .posting-item-meta > .posting-author:hover .posting-author-name {
+    color: blue;
 }
 
 footer {
