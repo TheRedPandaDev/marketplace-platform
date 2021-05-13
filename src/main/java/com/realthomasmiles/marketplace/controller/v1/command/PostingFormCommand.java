@@ -3,10 +3,7 @@ package com.realthomasmiles.marketplace.controller.v1.command;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @Accessors(chain = true)
@@ -22,15 +19,16 @@ public class PostingFormCommand {
     "Description must be between 1 and 250 characters")
     private String description;
 
-    @NotBlank
+    @NotNull(message = "")
     @Min(value = 1, message = "Price should not be less than 1")
-    @Max(value = 1, message = "Price should not be greater than 150")
+    @Max(value = 10000000000L, message =
+    "Price should not be greater than 10000000000")
     private Long price;
 
-    @NotBlank(message = "Category must not be empty")
+    @NotNull(message = "Category must not be empty")
     private Long categoryId;
 
-    @NotBlank(message = "Location must not be empty")
+    @NotNull(message = "Location must not be empty")
     private Long locationId;
 
 

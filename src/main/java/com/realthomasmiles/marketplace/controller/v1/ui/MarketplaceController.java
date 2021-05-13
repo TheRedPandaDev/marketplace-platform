@@ -1,11 +1,14 @@
 package com.realthomasmiles.marketplace.controller.v1.ui;
 
 import com.realthomasmiles.marketplace.controller.v1.command.PasswordFormCommand;
+import com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.command.ProfileFormCommand;
+import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
+import com.realthomasmiles.marketplace.dto.response.Response;
 import com.realthomasmiles.marketplace.service.CategoryService;
 import com.realthomasmiles.marketplace.service.LocationService;
 import com.realthomasmiles.marketplace.service.PostingService;
@@ -23,6 +26,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MarketplaceController {
@@ -61,25 +65,6 @@ public class MarketplaceController {
         List<CategoryDto> categories = categoryService.getAllCategories();
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("postings", postings);
-        modelAndView.addObject("userName", userDto.getFullName());
-        modelAndView.addObject("isAdmin", userDto.getIsAdmin());
-
-        return modelAndView;
-    }
-
-    @GetMapping("/postings/{id}")
-    public ModelAndView postingById(Principal principal, @PathVariable String id) {
-        ModelAndView modelAndView = new ModelAndView("posting");
-        UserDto userDto = userService.findUserByEmail(principal.getName());
-        try {
-            Long postingId = Long.parseLong(id);
-            PostingDto posting = postingService.getPostingById(Long.parseLong(id));
-            modelAndView.addObject("posting", posting);
-        } catch (NumberFormatException numberFormatException) {
-            modelAndView.addObject("posting", null);
-        }
-        List<CategoryDto> categories = categoryService.getAllCategories();
-        modelAndView.addObject("categories", categories);
         modelAndView.addObject("userName", userDto.getFullName());
         modelAndView.addObject("isAdmin", userDto.getIsAdmin());
 
@@ -146,6 +131,25 @@ public class MarketplaceController {
         return modelAndView;
     }
 
+    @GetMapping("/postings/{id}")
+    public ModelAndView postingById(Principal principal, @PathVariable String id) {
+        ModelAndView modelAndView = new ModelAndView("posting");
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        try {
+            Long postingId = Long.parseLong(id);
+            PostingDto posting = postingService.getPostingById(Long.parseLong(id));
+            modelAndView.addObject("posting", posting);
+        } catch (NumberFormatException numberFormatException) {
+            modelAndView.addObject("posting", null);
+        }
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("isAdmin", userDto.getIsAdmin());
+
+        return modelAndView;
+    }
+
     @GetMapping("/dashboard")
     public ModelAndView dashboard(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("dashboard");
@@ -178,6 +182,69 @@ public class MarketplaceController {
         modelAndView.addObject("isAdmin", userDto.getIsAdmin());
 
         return modelAndView;
+    }
+
+    @GetMapping("/postings/new")
+    public ModelAndView newPosting(Principal principal) {
+        ModelAndView modelAndView = new ModelAndView("newPosting");
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        List<LocationDto> locations = locationService.getAllLocations();
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("locations", locations);
+        modelAndView.addObject("postingFormData", new PostingFormCommand());
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("isAdmin", userDto.getIsAdmin());
+
+        return modelAndView;
+    }
+
+    @PostMapping("/postings/new")
+    public ModelAndView postNewPosting(Principal principal,
+                                    @Valid @ModelAttribute("postingForm") PostingFormCommand postingFormCommand,
+                                    BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("newPosting");
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        PostingDto newPosting;
+        if (bindingResult.hasErrors()) {
+            return modelAndView;
+        } else {
+            try {
+                newPosting = postPosting(postingFormCommand, userDto);
+            } catch (Exception exception) {
+                bindingResult.rejectValue("locationId", "error.signUpFormCommand", exception.getMessage());
+
+                return modelAndView;
+            }
+        }
+
+        if (newPosting == null) {
+            return modelAndView;
+        } else {
+            return new ModelAndView("redirect:/postings/" + newPosting.getId());
+        }
+    }
+
+    private PostingDto postPosting(PostingFormCommand postingFormCommand, UserDto userDto) {
+        PostPostingRequest postPostingRequest = new PostPostingRequest()
+                .setName(postingFormCommand.getName())
+                .setDescription(postingFormCommand.getDescription())
+                .setPrice(postingFormCommand.getPrice())
+                .setCategoryId(postingFormCommand.getCategoryId())
+                .setLocationId(postingFormCommand.getLocationId());
+
+        Optional<CategoryDto> categoryDto = Optional.ofNullable(postingService.getCategoryById(postPostingRequest.getCategoryId()));
+        if (categoryDto.isPresent()) {
+            Optional<LocationDto> locationDto = Optional.ofNullable(postingService.getLocationById(postPostingRequest.getLocationId()));
+            if (locationDto.isPresent()) {
+                Optional<PostingDto> postingDto = Optional.ofNullable(postingService.postPosting(postPostingRequest, categoryDto.get(), locationDto.get(), userDto));
+                if (postingDto.isPresent()) {
+                    return postingDto.get();
+                }
+            }
+        }
+
+        return null;
     }
 
     @PostMapping("/myProfile")
