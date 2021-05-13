@@ -3,9 +3,11 @@ package com.realthomasmiles.marketplace.controller.v1.ui;
 import com.realthomasmiles.marketplace.controller.v1.command.PasswordFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.command.ProfileFormCommand;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
+import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.service.CategoryService;
+import com.realthomasmiles.marketplace.service.LocationService;
 import com.realthomasmiles.marketplace.service.PostingService;
 import com.realthomasmiles.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class MarketplaceController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private LocationService locationService;
 
     @GetMapping("/postings/all")
     public ModelAndView allPostings(Principal principal) {
@@ -91,6 +96,46 @@ public class MarketplaceController {
             Long categoryId = Long.parseLong(id);
             CategoryDto categoryDto = postingService.getCategoryById(categoryId);
             List<PostingDto> postings = postingService.getPostingsByCategory(categoryDto);
+            modelAndView.addObject("postings", postings);
+        } catch (NumberFormatException numberFormatException) {
+            modelAndView.addObject("postings", Collections.emptyList());
+        }
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("isAdmin", userDto.getIsAdmin());
+
+        return modelAndView;
+    }
+
+    @GetMapping("/postings/location/{id}")
+    public ModelAndView postingByLocation(Principal principal, @PathVariable String id) {
+        ModelAndView modelAndView = new ModelAndView("postings");
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        try {
+            Long locationId = Long.parseLong(id);
+            LocationDto locationDto = postingService.getLocationById(locationId);
+            List<PostingDto> postings = postingService.getPostingsByLocation(locationDto);
+            modelAndView.addObject("postings", postings);
+        } catch (NumberFormatException numberFormatException) {
+            modelAndView.addObject("postings", Collections.emptyList());
+        }
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("isAdmin", userDto.getIsAdmin());
+
+        return modelAndView;
+    }
+
+    @GetMapping("/postings/author/{id}")
+    public ModelAndView postingByAuthor(Principal principal, @PathVariable String id) {
+        ModelAndView modelAndView = new ModelAndView("postings");
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        try {
+            Long authorId = Long.parseLong(id);
+            UserDto authorDto = userService.getUserById(authorId);
+            List<PostingDto> postings = postingService.getPostingsByUser(authorDto);
             modelAndView.addObject("postings", postings);
         } catch (NumberFormatException numberFormatException) {
             modelAndView.addObject("postings", Collections.emptyList());
