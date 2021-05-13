@@ -13,6 +13,7 @@ public class UserMapper {
 
     public static UserDto toUserDto(User user) {
         UserDto userDto = new UserDto()
+                .setId(user.getId())
                 .setEmail(user.getEmail())
                 .setPassword(user.getPassword())
                 .setFirstName(user.getFirstName())
