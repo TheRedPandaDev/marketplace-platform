@@ -62,6 +62,25 @@ public class MarketplaceController {
         return modelAndView;
     }
 
+    @GetMapping("/postings/search")
+    public ModelAndView searchPostingsByName(Principal principal, @RequestParam(name = "q") String text) {
+        ModelAndView modelAndView = new ModelAndView("postings");
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        List<PostingDto> postings;
+        if (text.trim().length() > 0) {
+            postings = postingService.getPostingsByNameContains(text);
+        } else {
+            postings = postingService.getAllPostings();
+        }
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("postings", postings);
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("isAdmin", userDto.getIsAdmin());
+
+        return modelAndView;
+    }
+
     @GetMapping("/postings/mine")
     public ModelAndView myPostings(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("postings");

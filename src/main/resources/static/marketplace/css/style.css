@@ -6,6 +6,50 @@ body {
     min-height: 100vh;
 }
 
+.forms-container .form-container {
+    border: 2px dodgerblue solid;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.logout-form input[type=submit] {
+    background-color: indianred;
+}
+
+.logout-form input[type=submit]:hover {
+    background-color: red;
+}
+
+.search-bar > form {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input[type=text] {
+    display: block;
+    padding: 6px;
+    margin: 0;
+    font-size: 1.5em;
+    border: 2px dodgerblue solid;
+    border-radius: 0;
+}
+
+.search-bar button {
+    min-height: 42px;
+    display: block;
+    flex-grow: 0;
+    background: dodgerblue;
+    font-size: 1.5em;
+    padding: 1px 3px 2px 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background: blue;
+}
+
 .text-danger {
     color: indianred;
     display: block;
@@ -113,7 +157,7 @@ header {
 
 .topbar-brand {
     flex: 5;
-    margin-left: 15px;
+    margin-left: 3em;
 }
 
 .topbar-brand > a:hover {
@@ -122,6 +166,7 @@ header {
 
 .topbar-brand h1 {
     margin: 0;
+    font-size: 4em;
 }
 
 .topbar-profile {
@@ -135,29 +180,54 @@ header {
     border-radius: 15px;
     background: white;
     color: black;
+    font-size: 1.5em;
 }
 
 .sidebar {
     grid-area: sidebar;
-    display: flex;
     flex-direction: column;
-    border-right: 2px dodgerblue solid;
+    border-right: 5px dodgerblue solid;
     font-size: large;
+    min-width: 150px;
 }
 
 .sidebar > ul {
-    margin: 15px;
-    flex: 5;
+    margin: 0;
     list-style-type: none;
     padding: 0;
 }
 
 .sidebar > ul > li {
-    margin-bottom: 10px;
+    padding: 5px 10px;
 }
 
 .sidebar > ul > li > ul {
-    padding-left: 20px;
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar > ul > li > ul > li {
+    padding: 5px 15px;
+}
+
+.sidebar > ul > li a:hover {
+    color: inherit;
+}
+
+.sidebar > ul > li:hover {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.sidebar > ul > li:hover > ul {
+    background-color: white;
+    color: black;
+}
+
+.sidebar > ul > li:hover > ul > li:hover {
+    background-color: dodgerblue;
+    color: white;
 }
 
 .page-wrapper {
@@ -167,7 +237,7 @@ header {
 }
 
 .postings-container .posting-item {
-    border: 1px dodgerblue solid;
+    border: 2px dodgerblue solid;
     margin-bottom: 25px;
     padding-left: 25px;
     display: flex;
