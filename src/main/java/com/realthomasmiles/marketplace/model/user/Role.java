@@ -18,7 +18,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private Collection<User> users;
 
     @Enumerated(EnumType.STRING)
