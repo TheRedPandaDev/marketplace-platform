@@ -16,14 +16,14 @@
             <form method="POST" class="register-form" id="login-form" th:action="@{/login}">
                 <div class="form-group">
                     <label for="email"></label>
-                    <input type="text" name="email" id="email" placeholder="Email"/>
+                    <input required type="text" name="email" id="email" placeholder="Email"/>
                 </div>
                 <div class="form-group">
                     <label for="password"></label>
                     <input type="password" name="password" id="password" placeholder="Password"/>
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="signin" id="signin" value="Log in"/>
+                    <input required type="submit" name="signin" id="signin" value="Log in"/>
                 </div>
             </form>
             <div id="errors" class="text-danger" th:if="${(param.error != null) and (param.error[0] == 'true')}">
