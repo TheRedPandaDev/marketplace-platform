@@ -15,6 +15,7 @@ public class PostingDto {
 
     private Long id;
     private String article;
+    private String photo;
     private Boolean isActive;
     private Long categoryId;
     private String category;
@@ -26,5 +27,13 @@ public class PostingDto {
     private String name;
     private String description;
     private Long price;
+
+    public String getPhotoImagePath() {
+        if (photo == null) {
+            return "/postings-photos/no-photo.jpg";
+        } else {
+            return "/postings-photos/" + id + "/" + photo;
+        }
+    }
 
 }

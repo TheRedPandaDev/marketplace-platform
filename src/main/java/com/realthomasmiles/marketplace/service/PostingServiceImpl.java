@@ -1,5 +1,6 @@
 package com.realthomasmiles.marketplace.service;
 
+import com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.mapper.PostingMapper;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
@@ -124,6 +125,41 @@ public class PostingServiceImpl implements PostingService {
                             .setName(postPostingRequest.getName())
                             .setDescription(postPostingRequest.getDescription())
                             .setPrice(postPostingRequest.getPrice());
+
+                    posting = postingRepository.save(posting);
+
+                    return PostingMapper.toPostingDto(posting);
+                }
+
+                throw exception(EntityType.LOCATION, ExceptionType.ENTITY_NOT_FOUND, locationDto.getId().toString());
+            }
+
+            throw exception(EntityType.CATEGORY, ExceptionType.ENTITY_NOT_FOUND, categoryDto.getId().toString());
+        }
+
+        throw exception(EntityType.USER, ExceptionType.ENTITY_NOT_FOUND, userDto.getEmail());
+    }
+
+    @Override
+    public PostingDto postPostingUI(PostingFormCommand postingFormCommand, CategoryDto categoryDto, LocationDto locationDto,
+                                    UserDto userDto, String fileName) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+        if (user.isPresent()) {
+            Optional<Category> category = categoryRepository.findById(categoryDto.getId());
+            if (category.isPresent()) {
+                Optional<Location> location = locationRepository.findById(locationDto.getId());
+                if (location.isPresent()) {
+                    Posting posting = new Posting()
+                            .setArticle("article")
+                            .setPhoto(fileName)
+                            .setIsActive(true)
+                            .setCategory(category.get())
+                            .setAuthor(user.get())
+                            .setLocation(location.get())
+                            .setPosted(DateUtils.today())
+                            .setName(postingFormCommand.getName())
+                            .setDescription(postingFormCommand.getDescription())
+                            .setPrice(postingFormCommand.getPrice());
 
                     posting = postingRepository.save(posting);
 
