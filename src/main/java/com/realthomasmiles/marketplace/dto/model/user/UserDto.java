@@ -15,6 +15,7 @@ import java.util.Collection;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
 
+    private Long id;
     private String email;
     private String password;
     private String firstName;
@@ -24,7 +25,7 @@ public class UserDto {
     private Collection<RoleDto> roles;
 
     public String getFullName() {
-        return firstName != null ? firstName.concat(" ").concat(lastName) : "";
+        return firstName != null ? firstName.concat(" ").concat(lastName) : email;
     }
 
 }

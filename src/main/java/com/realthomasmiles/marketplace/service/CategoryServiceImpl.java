@@ -1,5 +1,6 @@
 package com.realthomasmiles.marketplace.service;
 
+import com.realthomasmiles.marketplace.dto.mapper.CategoryMapper;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.exception.EntityType;
 import com.realthomasmiles.marketplace.exception.ExceptionType;
@@ -27,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getAllCategories() {
         return StreamSupport.stream(categoryRepository.findAll().spliterator(), false)
-                .map(category -> modelMapper.map(category, CategoryDto.class))
+                .map(CategoryMapper::toCategoryDto)
                 .collect(Collectors.toList());
     }
 

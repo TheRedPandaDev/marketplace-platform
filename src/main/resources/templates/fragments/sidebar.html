@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Header</title>
+</head>
+
+<body>
+
+<aside class="sidebar" th:fragment="sidebar">
+    <ul class="sidebar-nav">
+        <!--/*@thymesVar id="isAdmin" type="java.lang.Boolean"*/-->
+        <li th:if="${isAdmin == true}">
+            <a href="/dashboard">Dashboard</a>
+        </li>
+        <li>
+           <a href="/postings/new">New Posting</a>
+        </li>
+        <li>
+            <a href="/postings/all">Postings</a>
+            <ul>
+                <!--/*@thymesVar id="categories" type="java.util.List<com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto>"*/-->
+                <li th:each="category : ${categories}">
+                    <a th:href="@{/postings/category/{id}(id=${category.getId()})}" th:text="${category.getName()}"></a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/postings/mine">My postings</a>
+        </li>
+    </ul>
+</aside>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+<div class="container-fluid" layout:fragment="content">
+  <section class="new-posting">
+    <div class="new-posting-form">
+      <h2 class="form-title">New posting</h2>
+      <!--/*@thymesVar id="postingFormData" type="com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand"*/-->
+      <form action="#" method="POST" th:action="@{/postings/new}" th:object="${postingFormData}">
+        <div class="form-group">
+          <label for="title">Posting title:<br></label>
+          <input type="text" th:field="*{name}" name="title" id="title" placeholder="Title"/>
+          <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description:<br></label>
+          <input type="text" th:field="*{description}" name="description" id="description" placeholder="Description"/>
+          <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price:<br></label>
+          <input type="number" th:field="*{price}" name="price" id="price" placeholder="0"/>
+          <p class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category:<br></label>
+          <select th:field="*{categoryId}" name="category" id="category">
+            <!--/*@thymesVar id="categories" type="java.util.List<com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto>"*/-->
+            <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}">
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location:<br></label>
+          <select th:field="*{locationId}" name="location" id="location">
+            <!--/*@thymesVar id="locations" type="java.util.List<com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto>"*/-->
+            <option th:each="location : ${locations}" th:value="${location.getId()}" th:text="${location.getName()}">
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input type="submit" name="postPosting" id="postPosting" value="Submit"/>
+        </div>
+        <div id="errors" class="text-danger" th:if="${#fields.hasErrors('locationId')}">
+          <p class="text-danger"  th:errors="*{locationId}"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+</body>
+
+</html>

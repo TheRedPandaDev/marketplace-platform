@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Header</title>
+</head>
+
+<body>
+<header class="topbar" th:fragment="navigation">
+    <div class="topbar-brand">
+        <a href="/">
+            <h1>Marketplace</h1>
+        </a>
+    </div>
+    <div class="topbar-profile">
+        <div class="topbar-profile-username">
+            <a href="/myProfile">
+                <h3>[[${userName}]]</h3>
+            </a>
+        </div>
+    </div>
+</header>
+
+</body>
+
+</html>

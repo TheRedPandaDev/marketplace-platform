@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+<div class="container-fluid" layout:fragment="content">
+  <div class="posting-container">
+    <!--/*@thymesVar id="posting" type="com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto"*/-->
+    <div th:if="${posting == null}">
+      <h1>No posting found</h1>
+    </div>
+    <div class="posting-item" th:id="${posting.getId()}">
+      <div class="posting-item-general">
+        <div class="posting-name">
+          <h2 th:text="${posting.getName()}"></h2>
+        </div>
+        <div class="posting-price">
+          <h3 th:text="${posting.getPrice()} + '₽'"></h3>
+        </div>
+        <!--/*@thymesVar id="maxOfferAmount" type="java.util.OptionalLong"*/-->
+        <div th:if="${maxOfferAmount != null && maxOfferAmount.isPresent()}" class="posting-max-offer">
+          <h3 th:text="'Biggest offer: ' + ${maxOfferAmount.getAsLong()} + '₽'"></h3>
+        </div>
+        <div th:if="${offerFormData != null}" class="offer-form">
+          <!--/*@thymesVar id="offerFormData" type="com.realthomasmiles.marketplace.controller.v1.command.MakeOfferCommand"*/-->
+          <form method="POST" th:action="'/postings/' + ${posting.getId()} + '/offer'" th:object="${offerFormData}">
+            <div class="form-group">
+              <label for="amount">Make offer: </label>
+              <input min="1" max="10000000000" type="number" th:field="${offerFormData.amount}" name="amount" id="amount" th:placeholder="${posting.getPrice()}">
+              <p class="text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="${offerFormData.amount}"></p>
+            </div>
+            <div class="form-group">
+              <input type="submit" name="makeOffer" id="makeOffer" value="Offer"/>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="posting-item-meta">
+        <div class="posting-posted">
+          <p th:text="${posting.getPosted()}"></p>
+        </div>
+        <div class="posting-category">
+          <a th:href="@{/postings/category/{id}(id=${posting.getCategoryId()})}">
+            <p th:text="${posting.getCategory()}"></p>
+          </a>
+        </div>
+        <div class="posting-location">
+          <a th:href="@{/postings/location/{id}(id=${posting.getLocationId()})}">
+            <p th:text="${posting.getLocation()}"></p>
+          </a>
+        </div>
+        <div class="posting-author">
+          <a th:href="@{/postings/author/{id}(id=${posting.getAuthorId()})}">
+            <p>
+              Author:<br>
+              <span class="posting-author-name" th:text="${posting.getAuthor()}"></span>
+            </p>
+          </a>
+        </div>
+      </div>
+      <div class="posting-item-description">
+        <h3>Description:</h3>
+        <div class="posting-description">
+          <p th:text="${posting.getDescription()}"></p>
+        </div>
+      </div>
+      <div th:if="${offers != null}" class="posting-offers-container">
+        <h3>Offers:</h3>
+        <p th:if="${offers.size() == 0}">No offers yet...</p>
+        <!--/*@thymesVar id="offers" type="java.util.List<com.realthomasmiles.marketplace.dto.model.marketplace.OfferDto>"*/-->
+        <div class="offer-item" th:each="offer : ${offers}">
+          <!--/*@thymesVar id="offer" type="com.realthomasmiles.marketplace.dto.model.marketplace.OfferDto"*/-->
+          <div class="offer-amount">
+            <h3 th:text="${offer.getAmount()} + '₽'"></h3>
+          </div>
+          <div class="posting-offered">
+            <p th:text="${offer.getOffered()}"></p>
+          </div>
+          <div class="posting-author">
+            <p th:text="${offer.getAuthor()}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

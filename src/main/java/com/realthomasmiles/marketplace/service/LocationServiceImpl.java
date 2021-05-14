@@ -1,5 +1,6 @@
 package com.realthomasmiles.marketplace.service;
 
+import com.realthomasmiles.marketplace.dto.mapper.LocationMapper;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.exception.EntityType;
 import com.realthomasmiles.marketplace.exception.ExceptionType;
@@ -27,7 +28,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<LocationDto> getAllLocations() {
         return StreamSupport.stream(locationRepository.findAll().spliterator(), false)
-                .map(location -> modelMapper.map(location, LocationDto.class))
+                .map(LocationMapper::toLocationDto)
                 .collect(Collectors.toList());
     }
 

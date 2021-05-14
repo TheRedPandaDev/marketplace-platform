@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+<div class="container-fluid" layout:fragment="content">
+    <div class="postings-container">
+        <!--/*@thymesVar id="postings" type="java.util.List<com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto>"*/-->
+        <div th:if="${postings.isEmpty()}">
+            <td colspan="2">No postings found</td>
+        </div>
+        <div th:each="posting : ${postings}">
+            <!--/*@thymesVar id="posting" type="com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto"*/-->
+            <a th:href="@{/postings/{id}(id=${posting.getId()})}">
+                <div class="posting-item" th:id="${posting.getId()}">
+                    <div class="posting-name">
+                        <h2 th:text="${posting.getName()}"></h2>
+                    </div>
+                    <div class="posting-price">
+                        <h3 th:text="${posting.getPrice()} + '₽'"></h3>
+                    </div>
+                    <div class="posting-category">
+                        <p th:text="${posting.getCategory()}"></p>
+                    </div>
+                    <div class="posting-location">
+                        <p th:text="${posting.getLocation()}"></p>
+                    </div>
+                    <div class="posting-posted">
+                        <p th:text="${posting.getPosted()}"></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

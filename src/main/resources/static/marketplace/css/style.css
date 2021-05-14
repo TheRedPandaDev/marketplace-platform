@@ -1,0 +1,265 @@
+body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.text-danger {
+    color: indianred;
+    display: block;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.new-posting-form {
+    margin: 25px auto;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 50vw;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=number], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=email], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=password], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: dodgerblue;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: blue;
+}
+
+.refuse {
+    text-align: center;
+}
+
+a {
+     text-decoration: none;
+     color: inherit;
+ }
+
+a:hover {
+    color: blue;
+}
+
+.postings-container a:hover {
+    color: inherit;
+}
+
+.main-wrapper {
+    display: grid;
+    grid-template-columns: 15% auto;
+    grid-template-rows: 15vh auto 10vh;
+    grid-template-areas:
+            "header header"
+            "sidebar page-wrapper"
+            "footer footer";
+}
+
+header {
+    grid-area: header;
+    display: flex;
+    background-color: dodgerblue;
+    color: white;
+    align-items: center;
+}
+
+.topbar-brand {
+    flex: 5;
+    margin-left: 15px;
+}
+
+.topbar-brand > a:hover {
+    color: white;
+}
+
+.topbar-brand h1 {
+    margin: 0;
+}
+
+.topbar-profile {
+    flex-grow: 0;
+    text-align: center;
+    margin-right: 30px;
+}
+
+.topbar-profile-username {
+    padding: 0 10px;
+    border-radius: 15px;
+    background: white;
+    color: black;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px dodgerblue solid;
+    font-size: large;
+}
+
+.sidebar > ul {
+    margin: 15px;
+    flex: 5;
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar > ul > li {
+    margin-bottom: 10px;
+}
+
+.sidebar > ul > li > ul {
+    padding-left: 20px;
+}
+
+.page-wrapper {
+    grid-area: page-wrapper;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.postings-container .posting-item {
+    border: 1px dodgerblue solid;
+    margin-bottom: 25px;
+    padding-left: 15px;
+}
+
+.posting-offers-container {
+    padding-right: 50px;
+}
+
+.posting-offers-container .offer-item {
+    border: 1px dodgerblue solid;
+    margin-bottom: 25px;
+    padding-left: 15px;
+}
+
+.offer-item > .offer-amount {
+    color: dodgerblue;
+}
+
+.posting-item > .posting-name {
+    color: dodgerblue;
+}
+
+.posting-container .posting-item {
+    display: grid;
+    grid-template-columns: auto 30%;
+    grid-template-rows: auto 25vh auto;
+    grid-template-areas:
+            "general meta"
+            "description meta"
+            "offers meta";
+}
+
+.posting-item > .posting-item-general > .offer-form {
+    width: 10vw;
+}
+
+.posting-item > .posting-item-general {
+    grid-area: general;
+}
+
+.posting-item > .posting-item-general > .posting-name {
+    color: dodgerblue;
+}
+
+.posting-item > .posting-item-description {
+    grid-area: description;
+    padding-right: 50px;
+}
+
+.posting-item > .posting-item-description > .posting-description {
+    border: 1px black solid;
+    border-radius: 10px;
+    padding-left: 15px;
+}
+
+.posting-item > .posting-item-meta {
+    grid-area: meta;
+}
+
+.posting-item > .posting-item-meta > .posting-category {
+    color: cornflowerblue;
+}
+
+.posting-item > .posting-item-meta > .posting-location {
+    color: cornflowerblue;
+}
+
+.posting-item > .posting-item-meta > .posting-author {
+    margin-top: 50px;
+}
+
+.posting-item > .posting-item-meta > .posting-author > a:hover {
+    color: inherit;
+}
+
+.posting-item > .posting-item-meta > .posting-author .posting-author-name {
+    margin-top: 50px;
+    color: cornflowerblue;
+}
+
+.posting-item > .posting-item-meta > .posting-author:hover .posting-author-name {
+    color: blue;
+}
+
+.posting-item > .posting-offers-container {
+    grid-area: offers;
+}
+
+footer {
+    min-height: 5vh;
+    grid-area: footer;
+    padding: 10px 25px;
+    background-color: dodgerblue;
+    color: white;
+}
