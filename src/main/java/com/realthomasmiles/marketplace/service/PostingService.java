@@ -1,5 +1,6 @@
 package com.realthomasmiles.marketplace.service;
 
+import com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
@@ -24,6 +25,9 @@ public interface PostingService {
 
     PostingDto postPosting(PostPostingRequest postPostingRequest, CategoryDto categoryDto, LocationDto locationDto,
                            UserDto userDto);
+
+    PostingDto postPostingUI(PostingFormCommand postingFormCommand, CategoryDto categoryDto, LocationDto locationDto,
+                             UserDto userDto, String fileName);
 
     CategoryDto getCategoryById(Long categoryId);
 

@@ -10,6 +10,7 @@ public class PostingMapper {
                 .setId(posting.getId())
                 .setPosted(DateUtils.formattedDate(posting.getPosted()))
                 .setArticle(posting.getArticle())
+                .setPhoto(posting.getPhoto())
                 .setAuthorId(posting.getAuthor().getId())
                 .setAuthor(posting.getAuthor().getFullName())
                 .setDescription(posting.getDescription())

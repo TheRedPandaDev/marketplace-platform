@@ -20,6 +20,7 @@ public class Posting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String photo;
     private String article;
     @Column(name = "is_active")
     private Boolean isActive;

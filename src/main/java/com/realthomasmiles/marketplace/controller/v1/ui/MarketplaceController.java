@@ -13,16 +13,17 @@ import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 import com.realthomasmiles.marketplace.dto.response.Response;
 import com.realthomasmiles.marketplace.service.*;
+import com.realthomasmiles.marketplace.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -216,15 +217,20 @@ public class MarketplaceController {
     @PostMapping("/postings/new")
     public ModelAndView postNewPosting(Principal principal,
                                     @Valid @ModelAttribute("postingFormData") PostingFormCommand postingFormCommand,
+                                    @RequestParam(value = "photo", required = false) MultipartFile multipartFile,
                                     BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("newPosting");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         PostingDto newPosting;
+        String fileName = null;
         if (bindingResult.hasErrors()) {
             return modelAndView;
         } else {
+            if (multipartFile != null && multipartFile.getOriginalFilename() != null && multipartFile.getOriginalFilename().trim().length() > 0) {
+                fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            }
             try {
-                newPosting = postPosting(postingFormCommand, userDto);
+                newPosting = postPosting(postingFormCommand, userDto, fileName);
             } catch (Exception exception) {
                 bindingResult.rejectValue("locationId", "error.signUpFormCommand", exception.getMessage());
 
@@ -235,23 +241,26 @@ public class MarketplaceController {
         if (newPosting == null) {
             return modelAndView;
         } else {
+            if (fileName != null) {
+                String uploadDir = "postings-photos/" + newPosting.getId();
+                try {
+                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             return new ModelAndView("redirect:/postings/" + newPosting.getId());
         }
     }
 
-    private PostingDto postPosting(PostingFormCommand postingFormCommand, UserDto userDto) {
-        PostPostingRequest postPostingRequest = new PostPostingRequest()
-                .setName(postingFormCommand.getName())
-                .setDescription(postingFormCommand.getDescription())
-                .setPrice(postingFormCommand.getPrice())
-                .setCategoryId(postingFormCommand.getCategoryId())
-                .setLocationId(postingFormCommand.getLocationId());
+    private PostingDto postPosting(PostingFormCommand postingFormCommand, UserDto userDto, String fileName) {
 
-        Optional<CategoryDto> categoryDto = Optional.ofNullable(postingService.getCategoryById(postPostingRequest.getCategoryId()));
+        Optional<CategoryDto> categoryDto = Optional.ofNullable(postingService.getCategoryById(postingFormCommand.getCategoryId()));
         if (categoryDto.isPresent()) {
-            Optional<LocationDto> locationDto = Optional.ofNullable(postingService.getLocationById(postPostingRequest.getLocationId()));
+            Optional<LocationDto> locationDto = Optional.ofNullable(postingService.getLocationById(postingFormCommand.getLocationId()));
             if (locationDto.isPresent()) {
-                Optional<PostingDto> postingDto = Optional.ofNullable(postingService.postPosting(postPostingRequest, categoryDto.get(), locationDto.get(), userDto));
+                Optional<PostingDto> postingDto = Optional.ofNullable(postingService.postPostingUI(postingFormCommand,
+                        categoryDto.get(), locationDto.get(), userDto, fileName));
                 if (postingDto.isPresent()) {
                     return postingDto.get();
                 }
