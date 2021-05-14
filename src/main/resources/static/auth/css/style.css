@@ -6,11 +6,25 @@ body {
     min-height: 100vh;
 }
 
+.brand h1 {
+    margin: 1em;
+    text-align: center;
+    color: dodgerblue;
+    font-size: 4em;
+}
+
 .text-danger {
     color: indianred;
     display: block;
     font-weight: bold;
     margin: 10px 0;
+}
+
+.form-title {
+    color: dodgerblue;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 0;
 }
 
 .signup-form {

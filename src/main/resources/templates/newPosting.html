@@ -9,7 +9,7 @@
 <div class="container-fluid" layout:fragment="content">
   <section class="new-posting">
     <div class="new-posting-form">
-      <h2 class="form-title">New posting</h2>
+      <h1 class="form-title">New posting</h1>
       <!--/*@thymesVar id="postingFormData" type="com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand"*/-->
       <form action="#" method="POST" th:action="@{/postings/new}" th:object="${postingFormData}" enctype="multipart/form-data">
         <div class="form-group">

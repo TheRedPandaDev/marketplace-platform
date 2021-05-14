@@ -11,6 +11,7 @@
         <div class="form-container">
             <!--/*@thymesVar id="profileForm" type="com.realthomasmiles.marketplace.controller.v1.command.ProfileFormCommand"*/-->
             <form action="#" method="POST" th:action="@{/myProfile}" th:object="${profileForm}">
+                <h1 class="form-title">Profile info</h1>
                 <div class="form-group">
                     <label for="firstName">First Name</label>
                     <div>
@@ -42,6 +43,7 @@
         <div class="form-container">
             <!--/*@thymesVar id="passwordForm" type="com.realthomasmiles.marketplace.controller.v1.command.PasswordFormCommand"*/-->
             <form action="#" method="POST" th:action="@{/password}" th:object="${passwordForm}">
+                <h1 class="form-title">Password</h1>
                 <div class="form-group">
                     <label>Email</label>
                     <div>

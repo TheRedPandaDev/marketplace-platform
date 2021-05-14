@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="/auth/css/style.css">
 </head>
 <body>
-    <!-- Sign up form -->
+    <div class="brand">
+        <h1>Tom's Marketplace</h1>
+    </div>
     <section class="signup">
         <div class="signup-form">
-            <h2 class="form-title">Sign up</h2>
+            <h1 class="form-title">Sign up</h1>
             <!--/*@thymesVar id="signUpFormData" type="com.realthomasmiles.marketplace.controller.v1.command.SignUpFormCommand"*/-->
             <form action="#" method="POST" class="register-form" id="register-form" th:action="@{/signup}" th:object="${signUpFormData}">
                 <div class="form-group">
@@ -61,6 +63,5 @@
             </div>
         </div>
     </section>
-</div>
 </body>
 </html>

@@ -6,6 +6,13 @@ body {
     min-height: 100vh;
 }
 
+.form-title {
+    color: dodgerblue;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 0;
+}
+
 .forms-container .form-container {
     border: 2px dodgerblue solid;
     padding: 15px;
@@ -157,7 +164,7 @@ header {
 
 .topbar-brand {
     flex: 5;
-    margin-left: 3em;
+    margin-left: 2em;
 }
 
 .topbar-brand > a:hover {
