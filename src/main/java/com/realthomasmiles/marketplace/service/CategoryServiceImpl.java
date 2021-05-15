@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getAllCategories() {
-        return StreamSupport.stream(categoryRepository.findAll().spliterator(), false)
+        return categoryRepository.findAllByOrderByNameAsc().stream()
                 .map(CategoryMapper::toCategoryDto)
                 .collect(Collectors.toList());
     }
