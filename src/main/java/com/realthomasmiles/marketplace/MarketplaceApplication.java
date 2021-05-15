@@ -28,11 +28,19 @@ import java.util.List;
 @SpringBootApplication
 public class MarketplaceApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		String cloudName = System.getenv("CLOUDINARY_CLOUD_NAME");
+		String apiKey = System.getenv("CLOUDINARY_API_KEY");
+		String apiSecret = System.getenv("CLOUDINARY_API_SECRET");
+
+		if (cloudName == null || apiKey == null || apiSecret == null) {
+			throw new Exception("Cloudinary environment variables are not set");
+		}
+
 		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-				"cloud_name", System.getenv("CLOUDINARY_CLOUD_NAME"),
-				"api_key", System.getenv("CLOUDINARY_API_KEY"),
-				"api_secret", System.getenv("CLOUDINARY_API_SECRET")));
+				"cloud_name", cloudName,
+				"api_key", apiKey,
+				"api_secret", apiSecret));
 		SingletonManager singletonManager = new SingletonManager();
 		singletonManager.setCloudinary(cloudinary);
 		singletonManager.init();
