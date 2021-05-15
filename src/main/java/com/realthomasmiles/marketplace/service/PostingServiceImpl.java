@@ -46,6 +46,9 @@ public class PostingServiceImpl implements PostingService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public List<PostingDto> getAllPostings() {
         return StreamSupport.stream(postingRepository.findAll().spliterator(), false)
@@ -133,7 +136,11 @@ public class PostingServiceImpl implements PostingService {
 
                     posting = postingRepository.save(posting);
 
-                    return PostingMapper.toPostingDto(posting);
+                    PostingDto newPostingDto = PostingMapper.toPostingDto(posting);
+
+                    emailService.notifyAboutPosting(user.get().getEmail(), newPostingDto);
+
+                    return newPostingDto;
                 }
 
                 throw exception(EntityType.LOCATION, ExceptionType.ENTITY_NOT_FOUND, locationDto.getId().toString());
@@ -168,7 +175,11 @@ public class PostingServiceImpl implements PostingService {
 
                     posting = postingRepository.save(posting);
 
-                    return PostingMapper.toPostingDto(posting);
+                    PostingDto newPostingDto = PostingMapper.toPostingDto(posting);
+
+                    emailService.notifyAboutPosting(user.get().getEmail(), newPostingDto);
+
+                    return newPostingDto;
                 }
 
                 throw exception(EntityType.LOCATION, ExceptionType.ENTITY_NOT_FOUND, locationDto.getId().toString());
