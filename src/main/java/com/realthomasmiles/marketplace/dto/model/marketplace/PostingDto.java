@@ -30,9 +30,9 @@ public class PostingDto {
 
     public String getPhotoImagePath() {
         if (photo == null) {
-            return "/postings-photos/no-photo.jpg";
+            return "https://res.cloudinary.com/du4nommyx/image/upload/v1621055894/no-photo_rqwahg.jpg";
         } else {
-            return "/postings-photos/" + id + "/" + photo;
+            return photo;
         }
     }
 
