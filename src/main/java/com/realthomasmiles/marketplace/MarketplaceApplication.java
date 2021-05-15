@@ -1,5 +1,8 @@
 package com.realthomasmiles.marketplace;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.SingletonManager;
+import com.cloudinary.utils.ObjectUtils;
 import com.realthomasmiles.marketplace.model.marketplace.Category;
 import com.realthomasmiles.marketplace.model.marketplace.Location;
 import com.realthomasmiles.marketplace.model.marketplace.Offer;
@@ -26,6 +29,14 @@ import java.util.List;
 public class MarketplaceApplication {
 
 	public static void main(String[] args) {
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				"cloud_name", System.getenv("CLOUDINARY_CLOUD_NAME"),
+				"api_key", System.getenv("CLOUDINARY_API_KEY"),
+				"api_secret", System.getenv("CLOUDINARY_API_SECRET")));
+		SingletonManager singletonManager = new SingletonManager();
+		singletonManager.setCloudinary(cloudinary);
+		singletonManager.init();
+
 		SpringApplication.run(MarketplaceApplication.class, args);
 	}
 
@@ -92,6 +103,7 @@ public class MarketplaceApplication {
 			if (adminLaptopPostings.size() == 0) {
 				adminLaptopPosting = new Posting()
 						.setArticle("article")
+						.setPhoto("https://res.cloudinary.com/du4nommyx/image/upload/v1621058987/f5uwvvqy9yg31_m2tye4.jpg")
 						.setAuthor(admin)
 						.setName("Admin INIT Laptop")
 						.setCategory(computersCategory)
@@ -112,6 +124,7 @@ public class MarketplaceApplication {
 						.setArticle("article")
 						.setAuthor(user)
 						.setName("User INIT Laptop")
+						.setPhoto("https://res.cloudinary.com/du4nommyx/image/upload/v1621057918/fhza3dgzhng8dq2gsgzl.jpg")
 						.setCategory(computersCategory)
 						.setLocation(akademicheskayaLocation)
 						.setDescription("User laptop for sale")

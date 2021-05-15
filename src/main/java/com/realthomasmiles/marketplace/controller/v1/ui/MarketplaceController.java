@@ -5,13 +5,11 @@ import com.realthomasmiles.marketplace.controller.v1.command.PasswordFormCommand
 import com.realthomasmiles.marketplace.controller.v1.command.PostingFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.command.ProfileFormCommand;
 import com.realthomasmiles.marketplace.controller.v1.request.MakeOfferRequest;
-import com.realthomasmiles.marketplace.controller.v1.request.PostPostingRequest;
 import com.realthomasmiles.marketplace.dto.model.marketplace.CategoryDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.LocationDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.OfferDto;
 import com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto;
 import com.realthomasmiles.marketplace.dto.model.user.UserDto;
-import com.realthomasmiles.marketplace.dto.response.Response;
 import com.realthomasmiles.marketplace.service.*;
 import com.realthomasmiles.marketplace.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +45,9 @@ public class MarketplaceController {
 
     @Autowired
     private OfferService offerService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping("/postings/all")
     public ModelAndView allPostings(Principal principal) {
@@ -161,7 +162,7 @@ public class MarketplaceController {
         UserDto userDto = userService.findUserByEmail(principal.getName());
         try {
             Long postingId = Long.parseLong(id);
-            PostingDto posting = postingService.getPostingById(Long.parseLong(id));
+            PostingDto posting = postingService.getPostingById(postingId);
             List<OfferDto> offers = offerService.getOffersByPosting(posting);
             modelAndView.addObject("posting", posting);
             OptionalLong maxOfferAmount = offers.stream().mapToLong(OfferDto::getAmount).max();
@@ -235,9 +236,9 @@ public class MarketplaceController {
 
     @PostMapping("/postings/new")
     public ModelAndView postNewPosting(Principal principal,
-                                    @Valid @ModelAttribute("postingFormData") PostingFormCommand postingFormCommand,
-                                    @RequestParam(value = "photo", required = false) MultipartFile multipartFile,
-                                    BindingResult bindingResult) {
+                                       @Valid @ModelAttribute("postingFormData") PostingFormCommand postingFormCommand,
+                                       @RequestParam(value = "photo", required = false) MultipartFile multipartFile,
+                                       BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("newPosting");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         PostingDto newPosting;
@@ -246,7 +247,7 @@ public class MarketplaceController {
             return modelAndView;
         } else {
             if (multipartFile != null && multipartFile.getOriginalFilename() != null && multipartFile.getOriginalFilename().trim().length() > 0) {
-                fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                fileName = cloudinaryService.upload(multipartFile);
             }
             try {
                 newPosting = postPosting(postingFormCommand, userDto, fileName);
@@ -263,7 +264,7 @@ public class MarketplaceController {
             if (fileName != null) {
                 String uploadDir = "postings-photos/" + newPosting.getId();
                 try {
-                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                    FileUploadUtil.saveFile(uploadDir, StringUtils.cleanPath(fileName.substring(fileName.lastIndexOf("/") + 1)), multipartFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
