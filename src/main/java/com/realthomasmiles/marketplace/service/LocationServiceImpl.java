@@ -27,7 +27,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<LocationDto> getAllLocations() {
-        return StreamSupport.stream(locationRepository.findAll().spliterator(), false)
+        return locationRepository.findAllByOrderByNameAsc().stream()
                 .map(LocationMapper::toLocationDto)
                 .collect(Collectors.toList());
     }
