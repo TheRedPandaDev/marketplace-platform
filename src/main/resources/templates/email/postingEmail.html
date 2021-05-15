@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Your posting</title>
+</head>
+
+<body style="font-family: Verdana, sans-serif;font-size: 15px;line-height: 1.5;margin: 0;min-height: 100vh;">
+<div class="container-fluid">
+  <div class="posting-container" style="padding: 2em">
+    <!--/*@thymesVar id="posting" type="com.realthomasmiles.marketplace.dto.model.marketplace.PostingDto"*/-->
+    <div class="posting-item" th:id="${posting.getId()}" style="display: grid;grid-template-columns: auto 30%;grid-template-rows: auto auto auto;grid-template-areas: 'general meta' 'description meta' 'offers meta'">
+      <div class="posting-item-general" style="grid-area: general;">
+        <div class="posting-name" style="color: dodgerblue;">
+          <h2 th:text="${posting.getName()}"></h2>
+        </div>
+        <div class="posting-photo">
+          <img alt="Posting photo" src="https://res.cloudinary.com/du4nommyx/image/upload/v1621055894/no-photo_rqwahg.jpg" th:src="${posting.getPhotoImagePath()}" style="width: 350px;height: 350px;object-fit: contain;margin-right: 25px;">
+        </div>
+        <div class="posting-price">
+          <h3 th:text="${posting.getPrice()} + '₽'"></h3>
+        </div>
+      </div>
+      <div class="posting-item-meta" style="grid-area: meta;">
+        <div class="posting-posted">
+          <p th:text="${posting.getPosted()}"></p>
+        </div>
+        <div class="posting-category" style="color: cornflowerblue;">
+          <p th:text="${posting.getCategory()}"></p>
+        </div>
+        <div class="posting-location" style="color: cornflowerblue;">
+          <p th:text="${posting.getLocation()}"></p>
+        </div>
+        <div class="posting-author" style="margin-top: 50px;">
+          <p>
+          Author:<br>
+          <span class="posting-author-name" th:text="${posting.getAuthor()}" style="margin-top: 50px;color: cornflowerblue;"></span>
+        </p>
+
+        </div>
+      </div>
+      <div class="posting-item-description" style="grid-area: description;padding-right: 50px;">
+        <h3>Description:</h3>
+        <div class="posting-description" style="border: 1px black solid;border-radius: 10px;padding-left: 15px;">
+          <p th:text="${posting.getDescription()}"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
