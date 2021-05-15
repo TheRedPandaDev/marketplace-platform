@@ -54,6 +54,11 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
+    public Long getNumberOfPostings() {
+        return postingRepository.count();
+    }
+
+    @Override
     public PostingDto getPostingById(Long id) {
         Optional<Posting> posting = postingRepository.findById(id);
         if (posting.isPresent()) {

@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
     @Override
+    public Long getNumberOfUsers() {
+        return userRepository.count();
+    }
+
+    @Override
     public UserDto signUp(UserDto userDto) {
         Role userRole;
         User user = userRepository.findByEmail(userDto.getEmail());

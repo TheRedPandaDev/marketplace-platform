@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface OfferService {
 
+    Long getNumberOfOffers();
+
     List<OfferDto> getOffersByPosting(PostingDto postingDto);
 
     List<OfferDto> getOffersByUser(UserDto userDto);

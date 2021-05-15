@@ -190,6 +190,12 @@ public class MarketplaceController {
         ModelAndView modelAndView = new ModelAndView("dashboard");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         List<CategoryDto> categories = categoryService.getAllCategories();
+        Long usersCount = userService.getNumberOfUsers();
+        Long postingsCount = postingService.getNumberOfPostings();
+        Long offersCount = offerService.getNumberOfOffers();
+        modelAndView.addObject("usersCount", usersCount);
+        modelAndView.addObject("postingsCount", postingsCount);
+        modelAndView.addObject("offersCount", offersCount);
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("currentUser", userDto);
         modelAndView.addObject("userName", userDto.getFullName());

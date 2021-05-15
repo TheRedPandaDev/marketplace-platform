@@ -4,6 +4,8 @@ import com.realthomasmiles.marketplace.dto.model.user.UserDto;
 
 public interface UserService {
 
+    Long getNumberOfUsers();
+
     UserDto signUp(UserDto userDto);
 
     UserDto getUserById(Long id);

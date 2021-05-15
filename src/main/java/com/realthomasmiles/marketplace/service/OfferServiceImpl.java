@@ -35,6 +35,11 @@ public class OfferServiceImpl implements OfferService {
     private UserRepository userRepository;
 
     @Override
+    public Long getNumberOfOffers() {
+        return offerRepository.count();
+    }
+
+    @Override
     public List<OfferDto> getOffersByPosting(PostingDto postingDto) {
         Optional<Posting> posting = postingRepository.findById(postingDto.getId());
         if (posting.isPresent()) {

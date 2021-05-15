@@ -13,6 +13,8 @@ public interface PostingService {
 
     List<PostingDto> getAllPostings();
 
+    Long getNumberOfPostings();
+
     PostingDto getPostingById(Long id);
 
     List<PostingDto> getPostingsByNameContains(String text);
