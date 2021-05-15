@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public Long getNumberOfUsers() {
         return userRepository.count();
@@ -58,7 +61,13 @@ public class UserServiceImpl implements UserService {
                     .setLastName(userDto.getLastName())
                     .setPhoneNumber(userDto.getPhoneNumber());
 
-            return UserMapper.toUserDto(userRepository.save(user));
+            user = userRepository.save(user);
+
+            UserDto newUserDto = UserMapper.toUserDto(user);
+
+            emailService.notifyAboutSuccessfulSignUp(userDto.getEmail(), userDto.getFullName());
+
+            return newUserDto;
         }
 
         throw exception(EntityType.USER, ExceptionType.DUPLICATE_ENTITY, userDto.getEmail());

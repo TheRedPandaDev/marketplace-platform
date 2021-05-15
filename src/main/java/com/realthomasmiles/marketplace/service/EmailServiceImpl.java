@@ -23,8 +23,24 @@ public class EmailServiceImpl implements EmailService {
     private TemplateEngine templateEngine;
 
     @Override
-    public void notifyAboutSuccessfulSignUp(String userEmail) {
+    public void notifyAboutSuccessfulSignUp(String userEmail, String userFullName) {
+        Context context = new Context();
+        context.setVariable("userFullName", userFullName);
 
+        String process = templateEngine.process("email/signupEmail", context);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+
+        try {
+            mimeMessageHelper.setSubject("Thank you for signing up");
+            mimeMessageHelper.setText(process,true);
+            mimeMessageHelper.setFrom("noreply@marketplace-platform-by-thomas.herokuapp.com", "Tom's Marketplace");
+            mimeMessageHelper.setTo(userEmail);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        javaMailSender.send(mimeMessage);
     }
 
     @Override
@@ -52,4 +68,5 @@ public class EmailServiceImpl implements EmailService {
     public void notifyAboutOffer(String userEmail, OfferDto offerDto) {
 
     }
+
 }
