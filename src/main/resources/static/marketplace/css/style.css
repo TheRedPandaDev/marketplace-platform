@@ -6,6 +6,14 @@ body {
     min-height: 100vh;
 }
 
+.statistics h1 {
+    color: dodgerblue;
+}
+
+.statistics h3 {
+    color: dodgerblue;
+}
+
 .form-title {
     color: dodgerblue;
     text-align: center;

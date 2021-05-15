@@ -7,14 +7,36 @@
 
 <body>
 <div class="container-fluid" layout:fragment="content">
-    <div>
-        <div>
-            <h3>Dashboard</h3>
+    <div class="statistics">
+        <div class="statistics-header">
+            <h1>Statistics</h1>
         </div>
-    </div>
-    <div class="row">
-    </div>
-    <div class="row">
+        <div class="statistics-container">
+            <div class="users-statistics">
+                <div class="users-count">
+                    <h3>Number of users:
+                        <!--/*@thymesVar id="usersCount" type="java.lang.Long"*/-->
+                        <span style="color: black" th:text="${usersCount}"></span>
+                    </h3>
+                </div>
+            </div>
+            <div class="postings-statistics">
+                <div class="postings-count">
+                    <h3>Number of postings:
+                        <!--/*@thymesVar id="postingsCount" type="java.lang.Long"*/-->
+                        <span style="color: black" th:text="${postingsCount}"></span>
+                    </h3>
+                </div>
+            </div>
+            <div class="offers-statistics">
+                <div class="offers-count">
+                    <h3>Number of offers:
+                        <!--/*@thymesVar id="offersCount" type="java.lang.Long"*/-->
+                        <span style="color: black" th:text="${offersCount}"></span>
+                    </h3>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
