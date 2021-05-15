@@ -12,13 +12,13 @@
     <div th:if="${posting == null}">
       <h1>No posting found</h1>
     </div>
-    <div class="posting-item" th:id="${posting.getId()}">
+    <div th:if="${posting != null}" class="posting-item" th:id="${posting.getId()}">
       <div class="posting-item-general">
         <div class="posting-name">
           <h2 th:text="${posting.getName()}"></h2>
         </div>
         <div class="posting-photo">
-          <img th:src="${posting.getPhotoImagePath()}" alt="Posting photo" src="/postings-photos/no-photo.jpg">
+          <img th:src="${posting.getPhotoImagePath()}" alt="Posting photo" src="https://res.cloudinary.com/du4nommyx/image/upload/v1621055894/no-photo_rqwahg.jpg">
         </div>
         <div class="posting-price">
           <h3 th:text="${posting.getPrice()} + '₽'"></h3>
