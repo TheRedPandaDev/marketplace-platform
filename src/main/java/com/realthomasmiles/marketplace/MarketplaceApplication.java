@@ -91,11 +91,53 @@ public class MarketplaceApplication {
 				categoryRepository.save(computersCategory);
 			}
 
+			Category electronicsCategory = categoryRepository.findByNameIgnoreCase("electronics");
+			if (electronicsCategory == null) {
+				electronicsCategory = new Category()
+						.setName("Electronics");
+				categoryRepository.save(electronicsCategory);
+			}
+
+			Category servicesCategory = categoryRepository.findByNameIgnoreCase("services");
+			if (servicesCategory == null) {
+				servicesCategory = new Category()
+						.setName("Services");
+				categoryRepository.save(servicesCategory);
+			}
+
+			Category transportCategory = categoryRepository.findByNameIgnoreCase("transport");
+			if (transportCategory == null) {
+				transportCategory = new Category()
+						.setName("Transport");
+				categoryRepository.save(transportCategory);
+			}
+
+			Category gamesCategory = categoryRepository.findByNameIgnoreCase("games");
+			if (gamesCategory == null) {
+				gamesCategory = new Category()
+						.setName("Games");
+				categoryRepository.save(gamesCategory);
+			}
+
 			Location akademicheskayaLocation = locationRepository.findByNameIgnoreCase("akademicheskaya");
 			if (akademicheskayaLocation == null) {
 				akademicheskayaLocation = new Location()
 						.setName("Akademicheskaya");
 				locationRepository.save(akademicheskayaLocation);
+			}
+
+			Location devyatkinoLocation = locationRepository.findByNameIgnoreCase("devyatkino");
+			if (devyatkinoLocation == null) {
+				devyatkinoLocation = new Location()
+						.setName("Devyatkino");
+				locationRepository.save(devyatkinoLocation);
+			}
+
+			Location politekhnicheskayaLocation = locationRepository.findByNameIgnoreCase("politekhnicheskaya");
+			if (politekhnicheskayaLocation == null) {
+				politekhnicheskayaLocation = new Location()
+						.setName("Politekhnicheskaya");
+				locationRepository.save(politekhnicheskayaLocation);
 			}
 
 			List<Posting> adminLaptopPostings = postingRepository.findByNameContainsIgnoreCase("admin init laptop");
@@ -107,7 +149,7 @@ public class MarketplaceApplication {
 						.setAuthor(admin)
 						.setName("Admin INIT Laptop")
 						.setCategory(computersCategory)
-						.setLocation(akademicheskayaLocation)
+						.setLocation(politekhnicheskayaLocation)
 						.setDescription("Admin laptop for sale")
 						.setIsActive(true)
 						.setPosted(DateUtils.today())
@@ -126,7 +168,7 @@ public class MarketplaceApplication {
 						.setName("User INIT Laptop")
 						.setPhoto("https://res.cloudinary.com/du4nommyx/image/upload/v1621057918/fhza3dgzhng8dq2gsgzl.jpg")
 						.setCategory(computersCategory)
-						.setLocation(akademicheskayaLocation)
+						.setLocation(politekhnicheskayaLocation)
 						.setDescription("User laptop for sale")
 						.setIsActive(true)
 						.setPosted(DateUtils.today())
