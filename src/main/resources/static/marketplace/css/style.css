@@ -35,6 +35,15 @@ body {
     background-color: red;
 }
 
+.posting-delete-form input[type=submit] {
+    background-color: indianred;
+    width: 30%;
+}
+
+.posting-delete-form input[type=submit]:hover {
+    background-color: red;
+}
+
 .search-bar > form {
     margin-bottom: 10px;
     display: flex;

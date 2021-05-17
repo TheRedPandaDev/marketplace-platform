@@ -14,6 +14,14 @@
     </div>
     <div th:if="${posting != null}" class="posting-item" th:id="${posting.getId()}">
       <div class="posting-item-general">
+        <!--/*@thymesVar id="isAdmin" type="java.lang.Boolean"*/-->
+        <div th:if="${isAdmin == true}" class="posting-delete">
+          <form class="posting-delete-form" method="POST" th:action="'/postings/' + ${posting.getId()} + '/delete'">
+            <div class="form-group">
+              <input type="submit" name="delete" id="delete" value="Delete" style="">
+            </div>
+          </form>
+        </div>
         <div class="posting-name">
           <h2 th:text="${posting.getName()}"></h2>
         </div>
