@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,19 +25,22 @@ public class Posting {
     private String article;
     @Column(name = "is_active")
     private Boolean isActive;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "author_id")
     private User author;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "location_id")
     private Location location;
     @Temporal(TemporalType.TIMESTAMP)
+    @OneToMany(mappedBy = "posting", cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private List<Offer> offers;
     private Date posted;
     private String name;
     private String description;
