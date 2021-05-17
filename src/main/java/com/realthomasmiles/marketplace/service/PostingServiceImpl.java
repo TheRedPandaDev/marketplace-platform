@@ -106,7 +106,7 @@ public class PostingServiceImpl implements PostingService {
     public List<PostingDto> getPostingsByCategory(CategoryDto categoryDto) {
         Optional<Category> category = categoryRepository.findById(categoryDto.getId());
         if (category.isPresent()) {
-            return postingRepository.findByLocationId(category.get().getId()).stream()
+            return postingRepository.findByCategoryId(category.get().getId()).stream()
                     .map(PostingMapper::toPostingDto)
                     .collect(Collectors.toList());
         }
