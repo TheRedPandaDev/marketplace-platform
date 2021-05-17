@@ -49,6 +49,24 @@ public class PostingServiceImpl implements PostingService {
     @Autowired
     private EmailService emailService;
 
+    public Long getCountByCategory(CategoryDto categoryDto) {
+        Optional<Category> category = categoryRepository.findById(categoryDto.getId());
+        if (category.isPresent()) {
+            return postingRepository.countByCategoryId(category.get().getId());
+        }
+
+        throw exception(EntityType.CATEGORY, ExceptionType.ENTITY_NOT_FOUND, categoryDto.getId().toString());
+    }
+
+    public Long getCountByLocation(LocationDto locationDto) {
+        Optional<Location> location = locationRepository.findById(locationDto.getId());
+        if (location.isPresent()) {
+            return postingRepository.countByLocationId(location.get().getId());
+        }
+
+        throw exception(EntityType.LOCATION, ExceptionType.ENTITY_NOT_FOUND, locationDto.getId().toString());
+    }
+
     @Override
     public List<PostingDto> getAllPostings() {
         return StreamSupport.stream(postingRepository.findAll().spliterator(), false)

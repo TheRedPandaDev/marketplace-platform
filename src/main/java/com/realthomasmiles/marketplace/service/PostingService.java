@@ -11,6 +11,10 @@ import java.util.List;
 
 public interface PostingService {
 
+    Long getCountByCategory(CategoryDto categoryDto);
+
+    Long getCountByLocation(LocationDto locationDto);
+
     List<PostingDto> getAllPostings();
 
     Long getNumberOfPostings();

@@ -91,6 +91,7 @@ public class MultiHttpSecurityConfig {
                     .antMatchers("/").permitAll()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/signup").permitAll()
+                    .antMatchers("/highchart/**").permitAll()
                     .antMatchers("/dashboard/**").hasAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
