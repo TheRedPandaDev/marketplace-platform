@@ -72,6 +72,16 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
+    public void deletePostingById(Long id) {
+        Optional<Posting> posting = postingRepository.findById(id);
+        if (posting.isPresent()) {
+            postingRepository.delete(posting.get());
+        } else {
+            throw exception(EntityType.POSTING, ExceptionType.ENTITY_NOT_FOUND, id.toString());
+        }
+    }
+
+    @Override
     public List<PostingDto> getPostingsByUser(UserDto userDto) {
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
         if (user.isPresent()) {

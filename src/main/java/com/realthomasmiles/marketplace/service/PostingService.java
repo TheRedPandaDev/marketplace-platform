@@ -17,6 +17,8 @@ public interface PostingService {
 
     PostingDto getPostingById(Long id);
 
+    void deletePostingById(Long id);
+
     List<PostingDto> getPostingsByNameContains(String text);
 
     List<PostingDto> getPostingsByLocation(LocationDto locationDto);

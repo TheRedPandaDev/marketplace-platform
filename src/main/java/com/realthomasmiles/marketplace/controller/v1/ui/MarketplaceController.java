@@ -338,6 +338,37 @@ public class MarketplaceController {
         offerService.makeOffer(makeOfferRequest, userDto);
     }
 
+    @PostMapping("/postings/{id}/delete")
+    public ModelAndView deletePostingById(Principal principal, @PathVariable String id) {
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        if (userDto.getIsAdmin()) {
+            long postingId;
+            try {
+                postingId = Long.parseLong(id);
+            } catch (NumberFormatException numberFormatException) {
+                return new ModelAndView("redirect:/postings/all");
+            }
+
+            PostingDto posting;
+            try {
+                posting = postingService.getPostingById(postingId);
+            } catch (Exception exception) {
+                return new ModelAndView("redirect:/postings/all");
+            }
+
+            try {
+                postingService.deletePostingById(postingId);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return new ModelAndView("redirect:/postings/" + posting.getId());
+            }
+
+            return new ModelAndView("redirect:/postings/all");
+        }
+
+        return new ModelAndView("redirect:/postings/all");
+    }
+
     @PostMapping("/myProfile")
     public ModelAndView updateUserProfile(Principal principal,
                                           @Valid @ModelAttribute("profileForm") ProfileFormCommand profileFormCommand,
