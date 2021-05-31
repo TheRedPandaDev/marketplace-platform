@@ -12,3 +12,7 @@ Authorize with user credentials
 ### Postings [/postings]():
 #### GET [/all](http://localhost:8081/api/v1/postings/all)
 Get all postings
+
+### Categories [/category]():
+#### GET [/all](http://localhost:8081/api/v1/category/all)
+Get all categories
