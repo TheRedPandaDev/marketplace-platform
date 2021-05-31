@@ -7,7 +7,8 @@ This is a web application that creates a classifieds marketplace where users can
 ## API [/api/v1]()
 
 ### Authorize [/auth](http://localhost:8081/api/v1/auth):
-Authorize with user credentials
+Authorize with user credentials  
+Returns JWT
 
 ### Postings [/postings]():
 #### GET [/all](http://localhost:8081/api/v1/postings/all)
